@@ -1,0 +1,1969 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="韓文單字"><meta name="theme-color" content="#FFF3F5"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>韓文單字卡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Serif+TC:wght@500;700&display=swap">
+<style>
+/* Layout: one-screen phone app — mode tabs on top, one card or quiz in the middle, every action in a thumb-reach dock at the bottom. */
+:root{
+  --bg:#FFF3F5;
+  --bg-2:#EDF7FF;
+  --surface:#FFFFFF;
+  --surface-2:#FFE9ED;
+  --surface-3:#EAF6FF;
+  --ink:#332F3D;
+  --ink-2:#6A6578;
+  --line:#F7D8DF;
+  --line-2:#CFE8F7;
+  --pink:#FFB6C1;
+  --pink-ink:#5A2332;
+  --pink-text:#9C3A56;
+  --blue:#CCEEFF;
+  --blue-mid:#A3DAF6;
+  --blue-ink:#1C4A66;
+  --blue-text:#1F5A7E;
+  --focus:#2F7FAE;
+  --star:#C98A0B;
+  --known:#2C8560;
+  --known-soft:#DDF3E8;
+  --review:#A95A0C;
+  --review-soft:#FFEBD6;
+  --warn-soft:#FFF3D9;
+  --warn-ink:#7A4A00;
+  --scrim:rgba(51,47,61,.36);
+  --shadow:0 1px 2px rgba(90,70,110,.06),0 12px 30px rgba(110,150,200,.14);
+  --f-ko:"Gowun Dodum","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-ui:-apple-system,"PingFang TC","Noto Sans TC","Noto Sans CJK TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-hz:"Noto Serif TC","Songti TC","Noto Serif CJK TC","PMingLiU",serif;
+  --r-card:22px;
+  --r-btn:16px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1A1A25;--bg-2:#161D28;--surface:#242534;--surface-2:#3A2731;--surface-3:#1E3244;--ink:#F4EFF7;--ink-2:#BAB3C8;--line:#3B3446;--line-2:#2B4256;--pink:#FFB6C1;--pink-ink:#4A1A27;--pink-text:#FFC4CE;--blue:#CCEEFF;--blue-mid:#8DCBEE;--blue-ink:#143A52;--blue-text:#BDE6FF;--focus:#9ED9FA;--star:#F2C14E;--known:#80D4AD;--known-soft:#1E3A2E;--review:#F3B275;--review-soft:#43301D;--warn-soft:#3D3019;--warn-ink:#F6D49A;--scrim:rgba(0,0,0,.55);--shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A1A25;--bg-2:#161D28;--surface:#242534;--surface-2:#3A2731;--surface-3:#1E3244;--ink:#F4EFF7;--ink-2:#BAB3C8;--line:#3B3446;--line-2:#2B4256;--pink:#FFB6C1;--pink-ink:#4A1A27;--pink-text:#FFC4CE;--blue:#CCEEFF;--blue-mid:#8DCBEE;--blue-ink:#143A52;--blue-text:#BDE6FF;--focus:#9ED9FA;--star:#F2C14E;--known:#80D4AD;--known-soft:#1E3A2E;--review:#F3B275;--review-soft:#43301D;--warn-soft:#3D3019;--warn-ink:#F6D49A;--scrim:rgba(0,0,0,.55);--shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+html{box-sizing:border-box;height:100%}
+*,*::before,*::after{box-sizing:inherit}
+body{height:100%;margin:0;background-color:var(--bg);background-image:linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%);background-attachment:fixed;color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.5;
+  -webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+.app{height:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column;padding-inline:16px;overflow:hidden}
+
+/* ---------- top ---------- */
+.top{flex:none;padding-block:10px 6px;display:flex;flex-direction:column;gap:8px}
+.top-row{display:flex;align-items:center;gap:8px}
+.tabs{flex:1;min-width:0;display:flex;gap:3px;padding:3px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.tab{flex:1;min-width:0;min-height:38px;border:0;border-radius:11px;background:transparent;color:var(--ink-2);font-size:14.5px;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;padding:0 4px}
+.tab[aria-selected="true"]{background:var(--pink);color:var(--pink-ink);font-weight:700}
+.badge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--blue);color:var(--blue-ink);font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+.icon-btn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.icon-btn svg{width:19px;height:19px}
+.progress{display:flex;flex-direction:column;gap:6px}
+.progress-text{display:flex;justify-content:space-between;align-items:center;gap:8px;font-variant-numeric:tabular-nums}
+.save-chip{flex:none;display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 9px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font-size:12px;white-space:nowrap}
+.save-chip svg{width:13px;height:13px;flex:none}
+.save-chip.ok{color:var(--known);border-color:var(--known-soft)}
+.save-chip.warn{color:var(--review);border-color:var(--review);background:var(--review-soft);font-weight:700}
+.save-chip.local{color:var(--blue-text);border-color:var(--line-2)}
+textarea{width:100%;min-height:96px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);padding:10px 12px;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;word-break:break-all;resize:vertical}
+.status-box{border-radius:14px;padding:12px 14px;font-size:14.5px;line-height:1.6;background:var(--surface);border:1px solid var(--line)}
+.status-box.ok{border-color:var(--known);background:var(--known-soft)}
+.status-box.warn{border-color:var(--review);background:var(--review-soft)}
+.status-box b{display:block;font-size:16px;margin-bottom:2px}
+#progText{font-size:15px;font-weight:600;white-space:nowrap;margin-right:auto}
+.deck-label{font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.bar{height:8px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--blue-mid));border-radius:999px;transition:width .25s ease}
+.voice-banner{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:8px 12px;border-radius:12px;background:var(--warn-soft);color:var(--warn-ink);font-size:13px;line-height:1.4}
+.voice-banner button{flex:none;border:0;background:transparent;color:inherit;font-weight:700;text-decoration:underline;padding:4px 2px}
+
+/* ---------- card ---------- */
+.stage{flex:1;min-height:0;display:flex;flex-direction:column;padding-block:6px 10px}
+.card{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);
+  padding:16px 18px 14px;display:flex;flex-direction:column;gap:12px}
+.card-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 9px;border-radius:999px;background:var(--surface-3);color:var(--blue-text);font-size:12.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pill.src-t{background:var(--surface);border:1px solid var(--line-2)}
+.pill.src-b{background:var(--surface-2);color:var(--pink-text)}
+.pill.review{background:var(--review-soft);color:var(--review)}
+.pill.known{background:var(--known-soft);color:var(--known)}
+.pill.srs{background:var(--blue);color:var(--blue-ink)}
+.stars{color:var(--star);letter-spacing:-.5px}
+.word-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-block:14px 4px;min-height:110px;text-align:center}
+.ko{margin:0;font-family:var(--f-ko);font-weight:400;line-height:1.15;color:var(--ink);letter-spacing:.01em;word-break:keep-all;overflow-wrap:anywhere;font-size:clamp(46px,17vw,76px)}
+.ko.len-m{font-size:clamp(38px,13vw,60px)}
+.ko.len-l{font-size:clamp(30px,10vw,46px)}
+.ko.len-xl{font-size:clamp(25px,7.6vw,36px);line-height:1.3}
+.answer{display:flex;flex-direction:column;gap:12px}
+.hanja-block{display:flex;flex-direction:column;align-items:center;gap:4px}
+.ruby{display:flex;justify-content:center;flex-wrap:wrap;gap:2px 6px}
+.rb{display:inline-flex;flex-direction:column;align-items:center;min-width:1.2em}
+.rb b{font-family:var(--f-hz);font-weight:700;font-size:34px;line-height:1.15;color:var(--pink-text)}
+.rb i{font-style:normal;font-family:var(--f-ko);font-size:14px;color:var(--ink-2);line-height:1.2;min-height:1.2em}
+.rb.rb-k b{font-family:var(--f-ko);font-weight:400;font-size:24px;line-height:1.6;color:var(--ink-2)}
+.origin{font-size:12.5px;color:var(--ink-2);letter-spacing:.06em}
+.senses{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line)}
+.senses li{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:10px;padding:10px 2px;border-bottom:1px dashed var(--line)}
+.senses li:last-child{border-bottom:0}
+.senses .num{font-size:15px;color:var(--pink-text);font-weight:700;min-width:1.2em}
+.senses.single .num{display:none}
+.senses .zh{font-size:19px;line-height:1.45;min-width:0;overflow-wrap:anywhere}
+.senses.single .zh{font-size:21px}
+.tag{justify-self:end;font-size:12.5px;color:var(--ink-2);white-space:nowrap;text-align:right}
+.tag .hz{font-family:var(--f-hz);font-weight:700;font-size:17px;color:var(--pink-text);margin-right:4px}
+.en,.note,.src-line{margin:0;font-size:13.5px;color:var(--ink-2);overflow-wrap:anywhere;line-height:1.5}
+.en span,.note span,.src-line>span:first-child{display:inline-block;margin-right:6px;font-size:12px;letter-spacing:.06em;padding:0 6px;border-radius:6px;background:var(--surface-3);color:var(--blue-text)}
+.rel{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.rel h3{margin:0;font-size:13px;font-weight:700;color:var(--ink-2);letter-spacing:.06em}
+.rel-row{display:flex;align-items:flex-start;gap:10px}
+.rel-char{flex:none;width:40px;text-align:center;font-family:var(--f-hz);font-weight:700;font-size:24px;line-height:1.1;color:var(--pink-text)}
+.rel-char small{display:block;font-family:var(--f-ko);font-weight:400;font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.rel-chips{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.chip{border:1px solid var(--line-2);background:var(--surface-3);color:var(--blue-text);border-radius:10px;padding:3px 9px;display:inline-flex;align-items:baseline;gap:5px;max-width:100%}
+.chip .k{font-family:var(--f-ko);font-size:16.5px;color:var(--ink)}
+.chip .h{font-family:var(--f-hz);font-size:13px}
+.chip-more{background:transparent;border-style:dashed;color:var(--ink-2);font-size:13px}
+.reveal{border:1.5px dashed var(--blue-mid);background:var(--surface-3);color:var(--ink-2);border-radius:16px;min-height:112px;font-size:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.reveal small{font-size:13px}
+.dict{margin-top:auto;font-size:13.5px;color:var(--ink-2)}
+.dict summary{cursor:pointer;padding:6px 0;list-style:none;display:flex;align-items:center;gap:6px}
+.dict summary::-webkit-details-marker{display:none}
+.dict summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.dict[open] summary::before{transform:rotate(45deg)}
+.dict ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.dict a{color:var(--blue-text);text-underline-offset:3px}
+.dict p{margin:6px 0 0;font-size:12.5px}
+
+/* ---------- panels ---------- */
+.panel{flex:1;min-height:0;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);padding:28px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+.panel h2{margin:0;font-size:24px;text-wrap:balance}
+.panel .big-ko{font-family:var(--f-ko);font-size:44px;color:var(--pink-text);line-height:1.1}
+.panel p{margin:0;color:var(--ink-2);max-width:30em}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:360px}
+.stat{background:var(--surface-3);border-radius:14px;padding:10px 6px;display:flex;flex-direction:column;align-items:center}
+.stat b{font-size:22px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--ink-2)}
+.stat.known b{color:var(--known)}.stat.review b{color:var(--review)}
+.panel-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:360px;margin-top:6px}
+.panel .field{width:100%;max-width:360px;text-align:left}
+.panel.top-aligned{justify-content:flex-start}
+
+/* quiz */
+.quiz{justify-content:flex-start;align-items:stretch;text-align:left;gap:12px;padding:16px}
+.q-meta{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.q-prompt{min-height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+.q-zh{font-size:22px;line-height:1.45;text-wrap:balance}
+.q-listen{width:92px;height:92px;border-radius:50%;border:0;background:var(--blue);color:var(--blue-ink);display:inline-flex;align-items:center;justify-content:center}
+.q-listen svg{width:38px;height:38px}
+.q-hint{font-size:13px;color:var(--ink-2)}
+.q-opts{display:flex;flex-direction:column;gap:8px}
+.q-opt{min-height:54px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);text-align:left;padding:9px 12px;font-size:16.5px;line-height:1.35;display:flex;gap:10px;align-items:center}
+.q-opt .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--surface-3);color:var(--blue-text);font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.q-opt .t{min-width:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.q-opt.ko-opt .t{font-family:var(--f-ko);font-size:21px}
+.q-opt.right{border-color:var(--known);background:var(--known-soft);color:var(--ink)}
+.q-opt.wrong{border-color:var(--review);background:var(--review-soft);color:var(--ink)}
+.q-opt:disabled{opacity:1;cursor:default}
+.q-feedback{margin:0;font-size:15px;min-height:1.5em;text-align:center}
+.q-feedback.ok{color:var(--known)}.q-feedback.bad{color:var(--review)}
+.miss{list-style:none;margin:0;padding:0;width:100%;max-width:360px;text-align:left;display:flex;flex-direction:column}
+.miss li{display:flex;gap:10px;align-items:baseline;padding:8px 2px;border-bottom:1px dashed var(--line)}
+.miss .k{font-family:var(--f-ko);font-size:19px;flex:none}
+.miss .z{font-size:14px;color:var(--ink-2);min-width:0}
+
+/* ---------- dock ---------- */
+.dock{flex:none;display:flex;flex-direction:column;gap:8px;padding-block:4px 12px}
+.row{display:flex;gap:8px}
+.row>*{min-width:0}
+.chip-btn{flex:1;min-height:46px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 8px;white-space:nowrap}
+.chip-btn svg{width:17px;height:17px;flex:none}
+.chip-btn[aria-pressed="true"]{border-color:transparent;background:var(--surface-3);color:var(--blue-text);font-weight:700}
+.chip-btn.review[aria-pressed="true"]{background:var(--review-soft);color:var(--review)}
+.chip-btn.known[aria-pressed="true"]{background:var(--known-soft);color:var(--known)}
+.play-btn{flex:2.2;min-height:58px;border-radius:var(--r-btn);border:0;background:var(--blue);color:var(--blue-ink);font-size:18px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 10px}
+.slow-btn{flex:1;min-height:58px;border-radius:var(--r-btn);border:1.5px solid var(--blue-mid);background:var(--surface);color:var(--blue-text);font-size:16px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 6px}
+.play-btn svg,.slow-btn svg{width:20px;height:20px;flex:none}
+.playing{box-shadow:inset 0 0 0 3px var(--focus)}
+.playing .eq{display:inline-flex}
+.eq{display:none;gap:2px;align-items:flex-end;height:16px}
+.eq i{width:3px;background:currentColor;border-radius:2px;animation:eq .8s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.4s}
+@keyframes eq{0%,100%{height:4px}50%{height:15px}}
+.nav-btn{min-height:60px;border-radius:var(--r-btn);font-size:18px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 10px}
+.nav-btn.prev{flex:1;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.nav-btn.next{flex:1.7;border:0;background:var(--pink);color:var(--pink-ink)}
+.nav-btn.forgot{flex:1;border:1.5px solid var(--review);background:var(--review-soft);color:var(--review)}
+.nav-btn.got{flex:1.3;border:0;background:var(--pink);color:var(--pink-ink)}
+.nav-btn.show{flex:1;border:0;background:var(--blue);color:var(--blue-ink)}
+.nav-btn svg{width:20px;height:20px}
+button:disabled{opacity:.42;cursor:default}
+.btn-primary{min-height:54px;border-radius:var(--r-btn);border:0;background:var(--pink);color:var(--pink-ink);font-size:17px;font-weight:700;padding:0 16px}
+.btn-soft{min-height:50px;border-radius:var(--r-btn);border:0;background:var(--blue);color:var(--blue-ink);font-size:16px;font-weight:700;padding:0 16px}
+.btn-line{min-height:48px;border-radius:var(--r-btn);border:1.5px solid var(--line);background:var(--surface);font-size:15px;padding:0 14px}
+.btn-danger{border-color:var(--review);color:var(--review)}
+
+/* ---------- sheets ---------- */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:560px;max-height:88%;background:var(--bg);border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -10px 40px rgba(0,0,0,.18);
+  padding-bottom:env(safe-area-inset-bottom,0px);animation:up .22s ease-out}
+.sheet.tall{height:88%}
+@keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+.sheet-head h2{margin:0;font-size:18px;min-width:0}
+.sheet-head>button{flex:none;white-space:nowrap}
+.sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 16px 20px;display:flex;flex-direction:column;gap:18px;flex:1;min-height:0}
+.field{display:flex;flex-direction:column;gap:8px}
+.field>.label{font-size:13px;font-weight:700;color:var(--ink-2);letter-spacing:.06em}
+.hint{font-size:13px;color:var(--ink-2);margin:0;line-height:1.5}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{flex:1 1 auto;min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font-size:14.5px;padding:4px 10px;line-height:1.3}
+.seg button[aria-pressed="true"]{border-color:var(--pink);background:var(--surface-2);color:var(--pink-text);font-weight:700}
+.seg button small{display:block;font-size:12px;font-weight:400;color:inherit;opacity:.8}
+select,input[type="number"],input[type="search"]{min-height:46px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);padding:0 12px;font-size:16px;width:100%;min-width:0}
+.inline{display:flex;gap:8px;align-items:center}
+.inline>select,.inline>input{flex:1}
+.inline>button{flex:none}
+.card-box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6}
+.card-box ol,.card-box ul{margin:4px 0 0;padding-left:1.3em}
+.card-box li+li{margin-top:4px}
+.card-box a{color:var(--blue-text)}
+.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mini-stats div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center;font-size:12.5px;color:var(--ink-2)}
+.mini-stats b{display:block;font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums}
+.results{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.result{width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;padding:10px 4px;display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center}
+.result .k{font-family:var(--f-ko);font-size:21px;grid-row:span 2}
+.result .z{font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.result .m{font-size:12.5px;color:var(--ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.peek-ko{font-family:var(--f-ko);font-size:clamp(34px,11vw,52px);line-height:1.2;text-align:center;word-break:keep-all;margin:4px 0 0}
+.toast{position:fixed;left:50%;bottom:calc(200px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:30;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;max-width:calc(100% - 32px);text-align:center;box-shadow:var(--shadow)}
+
+@media (max-height:680px){
+  .top{padding-block:6px 4px;gap:6px}
+  .tab{min-height:34px}
+  .icon-btn{width:38px;height:38px}
+  .word-wrap{min-height:84px;padding-block:6px 0}
+  .card{padding:12px 14px 10px;gap:8px}
+  .chip-btn{min-height:42px}
+  .play-btn,.slow-btn{min-height:50px}
+  .nav-btn{min-height:52px}
+  .dock{gap:6px;padding-block:2px 8px}
+  .rb b{font-size:28px}
+  .q-opt{min-height:48px;padding:7px 12px}
+  .q-prompt{min-height:84px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app" class="app" lang="zh-Hant">
+  <header class="top">
+    <div class="top-row">
+      <div class="tabs" role="tablist" aria-label="複習方式">
+        <button id="tabCards" class="tab" role="tab" type="button" data-mode="cards">單字卡</button>
+        <button id="tabSrs" class="tab" role="tab" type="button" data-mode="srs">今日複習<span id="srsBadge" class="badge" hidden>0</span></button>
+        <button id="tabQuiz" class="tab" role="tab" type="button" data-mode="quiz">測驗</button>
+      </div>
+      <button id="btnSearch" class="icon-btn" type="button" aria-label="搜尋單字" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+      </button>
+      <button id="btnSettings" class="icon-btn" type="button" aria-label="設定" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+      </button>
+    </div>
+    <div class="progress">
+      <div class="progress-text"><span id="progText">載入中…</span><span id="deckLabel" class="deck-label"></span><button id="saveChip" class="save-chip" type="button" aria-haspopup="dialog" aria-label="進度保存狀態">連線中</button></div>
+      <div class="bar" aria-hidden="true"><div id="barFill"></div></div>
+    </div>
+    <div id="saveBanner" class="voice-banner" role="status" hidden>
+      <span id="saveBannerText">進度目前無法保存。</span>
+      <span style="display:flex;gap:10px;flex:none"><button id="saveBannerBtn" type="button">怎麼辦？</button><button id="saveBannerClose" type="button">知道了</button></span>
+    </div>
+    <div id="voiceBanner" class="voice-banner" role="status" hidden>
+      <span id="voiceBannerText">這台裝置找不到韓語語音。</span>
+      <button id="voiceBannerBtn" type="button">怎麼辦？</button>
+    </div>
+  </header>
+
+  <main class="stage">
+    <article id="card" class="card" aria-live="polite">
+      <div id="cardMeta" class="card-meta"></div>
+      <div class="word-wrap"><h1 id="ko" class="ko" lang="ko"></h1></div>
+      <div id="answer" class="answer"></div>
+      <button id="reveal" class="reveal" type="button" hidden></button>
+      <details id="dict" class="dict">
+        <summary>查詞典・查證來源</summary>
+        <ul id="dictLinks"></ul>
+        <p>中文意思與漢字是依辭典整理；有疑問時請以辭典為準。</p>
+      </details>
+    </article>
+
+    <section id="done" class="panel" hidden>
+      <div class="big-ko" lang="ko">수고했어요!</div>
+      <h2>這一輪複習完成了</h2>
+      <p id="doneSummary"></p>
+      <div class="stats">
+        <div class="stat known"><b id="doneKnown">0</b><span>已熟悉</span></div>
+        <div class="stat review"><b id="doneReview">0</b><span>再複習</span></div>
+        <div class="stat"><b id="doneNone">0</b><span>未標記</span></div>
+      </div>
+      <div class="panel-actions">
+        <button id="btnRestart" class="btn-primary" type="button">重新開始</button>
+        <button id="btnDoneReview" class="btn-soft" type="button" hidden>只複習「再複習」的單字</button>
+        <button id="btnBackLast" class="btn-line" type="button">回到最後一個單字</button>
+      </div>
+    </section>
+
+    <section id="empty" class="panel" hidden>
+      <h2 id="emptyTitle">這個範圍目前沒有單字</h2>
+      <p id="emptyText"></p>
+      <div class="panel-actions"><button id="btnEmptyAll" class="btn-primary" type="button">回到全部單字</button></div>
+    </section>
+
+    <section id="srsDone" class="panel" hidden>
+      <div class="big-ko" lang="ko">잘했어요!</div>
+      <h2 id="srsDoneTitle">今天的複習完成了</h2>
+      <p id="srsDoneText"></p>
+      <div class="stats">
+        <div class="stat known"><b id="srsOk">0</b><span>記得</span></div>
+        <div class="stat review"><b id="srsBad">0</b><span>不記得</span></div>
+        <div class="stat"><b id="srsTomorrow">0</b><span>明天要複習</span></div>
+      </div>
+      <div class="panel-actions">
+        <button id="btnSrsMore" class="btn-primary" type="button">再學 10 個新字</button>
+        <button id="btnSrsCards" class="btn-line" type="button">回到單字卡</button>
+      </div>
+      <p class="hint" id="srsDoneHint"></p>
+    </section>
+
+    <section id="quizStart" class="panel" hidden>
+      <h2>小測驗</h2>
+      <p id="quizRange"></p>
+      <div class="field">
+        <span class="label">題型</span>
+        <div class="seg" id="segQuizType">
+          <button type="button" data-v="ko2zh">看韓文<br>選中文</button>
+          <button type="button" data-v="au2zh">聽發音<br>選中文</button>
+          <button type="button" data-v="zh2ko">看中文<br>選韓文</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="label">題數</span>
+        <div class="seg" id="segQuizLen">
+          <button type="button" data-v="10">10 題</button>
+          <button type="button" data-v="20">20 題</button>
+          <button type="button" data-v="30">30 題</button>
+        </div>
+      </div>
+      <div class="panel-actions"><button id="btnQuizStart" class="btn-primary" type="button">開始測驗</button></div>
+      <p class="hint">答錯的字會自動標記為「再複習」。範圍跟著設定裡的「單字來源」與「分類」。</p>
+    </section>
+
+    <section id="quiz" class="panel quiz" hidden>
+      <div class="q-meta"><span id="qCount"></span><span id="qType"></span></div>
+      <div id="qPrompt" class="q-prompt"></div>
+      <div id="qOpts" class="q-opts"></div>
+      <p id="qFeedback" class="q-feedback" role="status"></p>
+    </section>
+
+    <section id="quizDone" class="panel top-aligned" hidden>
+      <div class="big-ko" lang="ko" id="quizScoreKo">좋아요!</div>
+      <h2 id="quizScore"></h2>
+      <p id="quizScoreText"></p>
+      <ul id="quizMiss" class="miss"></ul>
+      <div class="panel-actions">
+        <button id="btnQuizRetryWrong" class="btn-primary" type="button">只測答錯的字</button>
+        <button id="btnQuizAgain" class="btn-soft" type="button">再測一次</button>
+        <button id="btnQuizBack" class="btn-line" type="button">換題型或題數</button>
+      </div>
+    </section>
+  </main>
+
+  <nav id="dockCards" class="dock" aria-label="單字卡操作">
+    <div class="row">
+      <button id="btnHide" class="chip-btn" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span id="btnHideText">隱藏中文</span>
+      </button>
+      <button id="btnReview" class="chip-btn review" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+        再複習
+      </button>
+      <button id="btnKnown" class="chip-btn known" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>
+        已熟悉
+      </button>
+    </div>
+    <div class="row">
+      <button class="play-btn js-play" type="button" data-slow="0">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.8v14.4a1 1 0 0 0 1.5.86l12-7.2a1 1 0 0 0 0-1.72l-12-7.2A1 1 0 0 0 7 4.8z"/></svg>
+        <span>播放韓文發音</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+      <button class="slow-btn js-play" type="button" data-slow="1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg>
+        <span>慢速</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+    </div>
+    <div class="row">
+      <button id="btnPrev" class="nav-btn prev" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        上一個
+      </button>
+      <button id="btnNext" class="nav-btn next" type="button">
+        下一個
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <nav id="dockSrs" class="dock" aria-label="今日複習操作" hidden>
+    <div class="row">
+      <button class="play-btn js-play" type="button" data-slow="0">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.8v14.4a1 1 0 0 0 1.5.86l12-7.2a1 1 0 0 0 0-1.72l-12-7.2A1 1 0 0 0 7 4.8z"/></svg>
+        <span>播放韓文發音</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+      <button class="slow-btn js-play" type="button" data-slow="1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg>
+        <span>慢速</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+    </div>
+    <div class="row" id="srsRowShow">
+      <button id="btnSrsShow" class="nav-btn show" type="button">顯示答案</button>
+    </div>
+    <div class="row" id="srsRowAnswer" hidden>
+      <button id="btnSrsForgot" class="nav-btn forgot" type="button">不記得</button>
+      <button id="btnSrsGot" class="nav-btn got" type="button">記得</button>
+    </div>
+  </nav>
+
+  <nav id="dockQuiz" class="dock" aria-label="測驗操作" hidden>
+    <div class="row">
+      <button class="slow-btn js-play" type="button" data-slow="0" id="btnQuizPlay">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.8v14.4a1 1 0 0 0 1.5.86l12-7.2a1 1 0 0 0 0-1.72l-12-7.2A1 1 0 0 0 7 4.8z"/></svg>
+        <span>發音</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+      <button id="btnQuizNext" class="nav-btn next" type="button" disabled>
+        下一題
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- 設定 -->
+<div id="settingsScrim" class="scrim" hidden lang="zh-Hant">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="sheet-head"><h2 id="settingsTitle" tabindex="-1">設定</h2><button id="btnCloseSettings" class="btn-soft" type="button" style="min-height:40px">完成</button></div>
+    <div class="sheet-body">
+      <div class="field">
+        <label class="label" for="selSrc">單字來源</label>
+        <select id="selSrc"></select>
+        <p class="hint" id="srcHint"></p>
+      </div>
+      <div class="field">
+        <label class="label" for="selCat">分類</label>
+        <select id="selCat"></select>
+      </div>
+      <div class="field">
+        <span class="label">複習範圍</span>
+        <div class="seg" id="segScope">
+          <button type="button" data-scope="all">全部單字<small id="cntAll"></small></button>
+          <button type="button" data-scope="review">只複習「再複習」<small id="cntReview"></small></button>
+          <button type="button" data-scope="skipKnown">略過「已熟悉」<small id="cntSkip"></small></button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="label">順序</span>
+        <div class="seg" id="segOrder">
+          <button type="button" data-order="pdf">原始順序<small>依書上的編號或頁碼</small></button>
+          <button type="button" data-order="random">隨機順序<small>每次打亂</small></button>
+        </div>
+        <button id="btnReshuffle" class="btn-line" type="button" hidden>重新洗牌，從頭開始</button>
+      </div>
+      <div class="field">
+        <span class="label">今日複習：每天新字數</span>
+        <div class="seg" id="segSrsNew">
+          <button type="button" data-v="0">0</button>
+          <button type="button" data-v="10">10</button>
+          <button type="button" data-v="20">20</button>
+          <button type="button" data-v="30">30</button>
+          <button type="button" data-v="50">50</button>
+        </div>
+        <p class="hint">「今日複習」會安排到期要複習的字，再加入這個數量的新字（從目前的單字來源與分類依序挑選，略過「已熟悉」）。記得的字隔 1、3、7、14、30 天…再出現；不記得的字當天會再出現。</p>
+      </div>
+      <div class="field">
+        <label class="label" for="inpJump">跳到 TOPIK 編號</label>
+        <div class="inline"><input id="inpJump" type="number" inputmode="numeric" min="1" placeholder="1–1671"><button id="btnJump" class="btn-soft" type="button">前往</button></div>
+        <p class="hint">其他單字可以用右上角的搜尋找到。</p>
+      </div>
+      <div class="field">
+        <span class="label">韓文發音</span>
+        <div class="card-box" id="voiceStatus">正在偵測韓語語音…</div>
+        <div class="inline" id="voicePickRow" hidden><select id="selVoice" aria-label="選擇韓語語音"></select><button id="btnTestVoice" class="btn-soft" type="button">試聽</button></div>
+        <button id="btnVoiceHelp" class="btn-line" type="button">沒有聲音或念錯語言？</button>
+      </div>
+      <div class="field">
+        <span class="label">複習統計（全部單字）</span>
+        <div class="mini-stats"><div><b id="stKnown">0</b>已熟悉</div><div><b id="stReview">0</b>再複習</div><div><b id="stSrs">0</b>已排程複習</div></div>
+      </div>
+      <div class="field">
+        <span class="label">進度保存</span>
+        <p class="hint" id="syncText">位置、標記和設定會自動保存在這台裝置的瀏覽器。</p>
+        <button id="btnOpenSave" class="btn-line" type="button">進度保存狀態與備份碼</button>
+      </div>
+      <div class="field">
+        <span class="label">單字資料</span>
+        <div class="card-box" id="dataInfo"></div>
+      </div>
+      <div class="field">
+        <span class="label">重設</span>
+        <div class="inline">
+          <button id="btnToFirst" class="btn-line" type="button" style="flex:1">回到第一個單字</button>
+          <button id="btnClearMarks" class="btn-line btn-danger" type="button" style="flex:1">清除所有標記</button>
+        </div>
+        <button id="btnClearSrs" class="btn-line btn-danger" type="button">清除今日複習的排程紀錄</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 搜尋 -->
+<div id="searchScrim" class="scrim" hidden lang="zh-Hant">
+  <div class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
+    <div class="sheet-head">
+      <h2 id="searchTitle" class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">搜尋單字</h2>
+      <input id="inpSearch" type="search" placeholder="輸入韓文、中文或漢字" autocomplete="off" aria-label="搜尋單字">
+      <button id="btnCloseSearch" class="btn-soft" type="button" style="min-height:40px">關閉</button>
+    </div>
+    <div class="sheet-body" style="gap:8px">
+      <p class="hint" id="searchHint">例如：학교、學校、學、謝謝</p>
+      <ul id="searchResults" class="results"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- 單字預覽 -->
+<div id="peekScrim" class="scrim" hidden lang="zh-Hant">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="peekTitle">
+    <div class="sheet-head"><h2 id="peekTitle" tabindex="-1">單字</h2><button id="btnClosePeek" class="btn-soft" type="button" style="min-height:40px">關閉</button></div>
+    <div class="sheet-body" style="gap:12px">
+      <div class="card-meta" id="peekMeta"></div>
+      <p class="peek-ko" lang="ko" id="peekKo"></p>
+      <div class="row"><button class="play-btn js-play" type="button" data-slow="0" data-peek="1" style="min-height:50px">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.8v14.4a1 1 0 0 0 1.5.86l12-7.2a1 1 0 0 0 0-1.72l-12-7.2A1 1 0 0 0 7 4.8z"/></svg>
+        <span>播放</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
+        <button class="slow-btn js-play" type="button" data-slow="1" data-peek="1" style="min-height:50px"><span>慢速</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span></button></div>
+      <div class="answer" id="peekAnswer"></div>
+      <button id="btnPeekOpen" class="btn-primary" type="button">在單字卡中打開這個字</button>
+    </div>
+  </div>
+</div>
+
+<!-- 進度保存 -->
+<div id="saveScrim" class="scrim" hidden lang="zh-Hant">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="saveTitle">
+    <div class="sheet-head"><h2 id="saveTitle" tabindex="-1">進度保存</h2><button id="btnCloseSave" class="btn-soft" type="button" style="min-height:40px">完成</button></div>
+    <div class="sheet-body">
+      <div id="saveStatus" class="status-box"></div>
+      <div class="field">
+        <span class="label">怎樣才不會遺失進度</span>
+        <div class="card-box">
+          <ol>
+            <li><b>登入 Claude 後開啟</b>：用 Claude App，或在 Safari／Chrome 登入 claude.ai 後開啟這個連結，進度會自動同步到你的帳號，換裝置也能接著複習。</li>
+            <li><b>沒登入時</b>：用公開連結在瀏覽器開啟，網頁可能不允許保存資料，重新整理就會清空。</li>
+            <li><b>自架版</b>：把 zip 裡的網頁放到自己的網址，再「加入主畫面」，進度會存在手機裡。</li>
+            <li><b>備份碼</b>：任何方式都能用。複習完複製備份碼，貼到備忘錄；之後在任何裝置貼回來就能還原。</li>
+          </ol>
+        </div>
+      </div>
+      <div class="field">
+        <span class="label">備份</span>
+        <button id="btnMakeBackup" class="btn-soft" type="button">產生並複製備份碼</button>
+        <textarea id="backupOut" readonly hidden aria-label="備份碼"></textarea>
+        <p class="hint" id="backupHint">備份碼包含標記、今日複習排程、目前位置和設定。</p>
+      </div>
+      <div class="field">
+        <label class="label" for="backupIn">從備份碼還原</label>
+        <textarea id="backupIn" placeholder="把備份碼貼在這裡（以 KOREAN1: 開頭）"></textarea>
+        <button id="btnRestore" class="btn-line btn-danger" type="button">還原</button>
+        <p class="hint">還原會用備份碼的內容取代目前的標記、複習排程和位置。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 語音說明 -->
+<div id="voiceScrim" class="scrim" hidden lang="zh-Hant">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="voiceTitle">
+    <div class="sheet-head"><h2 id="voiceTitle" tabindex="-1">韓語發音說明</h2><button id="btnCloseVoice" class="btn-soft" type="button" style="min-height:40px">關閉</button></div>
+    <div class="sheet-body">
+      <p class="hint" id="voiceWhy">這個網頁用手機或電腦內建的韓語語音朗讀。找不到韓語語音時，為了避免用中文或英文的聲音念錯，網頁不會播放。</p>
+      <div class="field">
+        <span class="label">現在先聽這個字</span>
+        <div class="card-box" id="altLinks"></div>
+      </div>
+      <div class="field">
+        <span class="label">安裝韓語語音</span>
+        <div class="card-box">
+          <b>iPhone／iPad</b>
+          <ol><li>設定 › 輔助使用 › 語音內容 › 聲音</li><li>選「韓文」，下載一個聲音（例如 Yuna）</li><li>回到這裡按「重新偵測」</li></ol>
+        </div>
+        <div class="card-box">
+          <b>Android</b>
+          <ol><li>設定 › 搜尋「文字轉語音」</li><li>偏好的引擎選「Google 語音服務」，按旁邊的齒輪 › 安裝語音資料 › 韓文</li><li>回到這裡按「重新偵測」</li></ol>
+          <p class="hint" style="margin-top:6px">各品牌手機的選單名稱略有不同。</p>
+        </div>
+        <div class="card-box">
+          <b>電腦</b>
+          <ul><li>Windows：設定 › 時間與語言 › 語音 › 新增語音 › 韓文</li><li>Mac：系統設定 › 輔助使用 › 語音內容 › 系統聲音 › 管理聲音 › 韓文</li></ul>
+        </div>
+        <div class="card-box">
+          <b>還是沒聲音？</b>
+          <ul><li>LINE、Facebook 等 App 內開啟的網頁常常無法發音，請改用 Safari 或 Chrome 開啟。</li><li>iPhone 請確認沒有開啟靜音模式，並調高音量。</li></ul>
+        </div>
+      </div>
+      <button id="btnRedetect" class="btn-primary" type="button">重新偵測韓語語音</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script src="words.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var $$ = function (sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); };
+  var DATA = window.TOPIK_DATA;
+  if (!DATA || !DATA.words || !DATA.words.length) {
+    $('progText').textContent = '單字資料沒有載入';
+    $('answer').textContent = '找不到 words.js。請確認 words.js 和這個網頁放在同一個資料夾。';
+    return;
+  }
+
+  /* ================= data ================= */
+  var WORDS = DATA.words;
+  var BY_ID = new Map();
+  var BY_NO = new Map();
+  var CAT_NAME = {};
+  var SEC_NAME = {};
+  DATA.categories.forEach(function (c) { CAT_NAME[c.id] = c.name; });
+  (DATA.meta.sections || []).forEach(function (s) { SEC_NAME[s.id] = s.name; });
+  var BOOK_B = (DATA.meta.books && DATA.meta.books.b) || { name: '第二本書', short: '第二本書' };
+  var MAXID = 0;
+  var CJK_RE = /[㐀-鿿豈-﫿]/;
+  var HZ_INDEX = new Map();
+  WORDS.forEach(function (w) {
+    BY_ID.set(w.id, w);
+    if (w.no) BY_NO.set(w.no, w);
+    if (w.id > MAXID) MAXID = w.id;
+    var refs = w.b || [];
+    w._star = refs.reduce(function (m, r) { return Math.max(m, r[3] || 0); }, 0);
+    w._bk = refs.length ? Math.min.apply(null, refs.map(function (r) { return r[1] * 100 + r[2]; })) : Infinity;
+    w._sk = {};
+    refs.forEach(function (r) { var k = r[1] * 100 + r[2]; if (!(r[0] in w._sk) || k < w._sk[r[0]]) w._sk[r[0]] = k; });
+    var chars = [];
+    w.senses.forEach(function (s) {
+      if (!s.hanja || s.hanja === '待確認') return;
+      Array.from(s.hanja.normalize('NFKC')).forEach(function (c) { if (CJK_RE.test(c) && chars.indexOf(c) < 0) chars.push(c); });
+    });
+    w._hz = chars;
+    chars.forEach(function (c) { if (!HZ_INDEX.has(c)) HZ_INDEX.set(c, []); HZ_INDEX.get(c).push(w); });
+    w._q = [w.ko.replace(/\s/g, ''), w.senses.map(function (s) { return s.zh; }).join('｜'),
+            w.senses.map(function (s) { return s.hanja || ''; }).join('｜').normalize('NFKC'), (w.en || '').toLowerCase()];
+  });
+  var DATA_SIG = WORDS.length + ':' + MAXID;
+  var ORIGIN_LABEL = { '漢字詞': '漢字詞', '固有詞': '純韓語', '外來語': '外來語', '混種詞': '漢字＋韓文', '待確認': '漢字待確認', '片語': '片語' };
+  var NUMS = '①②③④⑤⑥⑦⑧⑨';
+  var HANGUL_RE = /[가-힣]/;
+  var SRS_INT = [1, 3, 7, 14, 30, 60, 120];
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function today() { var d = new Date(); return Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000); }
+  function starStr(n) { return n ? '★★★★★'.slice(0, n) : ''; }
+
+  /* ================= state ================= */
+  var KEY = 'topik1-cards-v1';
+  function defaults() {
+    return { v: 2, updatedAt: 0, mode: 'cards', src: 'all', order: 'pdf', scope: 'all', cat: 'all', deck: null, pos: 0, mainNo: 1,
+             marks: '', hideZh: false, voiceURI: '', done: false, dataSig: '',
+             srs: {}, srsDay: {}, srsQ: {}, srsNew: 20, quizType: 'ko2zh', quizLen: 10 };
+  }
+  var state = defaults();
+  var peek = false;   // temporary reveal of hidden Chinese for the current card
+  var quiz = null;    // current quiz round (not saved)
+
+  var LOCAL_OK = (function () {
+    try { var k = '__topik_probe__'; localStorage.setItem(k, '1'); var ok = localStorage.getItem(k) === '1'; localStorage.removeItem(k); return ok; }
+    catch (e) { return false; }
+  })();
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {}); } catch (e) {}
+  var bootUpdatedAt = 0;     // updatedAt of the progress this device started with
+  var touched = { m: {}, s: {}, allMarks: false, allSrs: false, moved: false };   // changes made since opening
+  function readLocal() { try { var raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; } }
+  function writeLocal() { try { localStorage.setItem(KEY, JSON.stringify(state)); return true; } catch (e) { return false; } }
+  function validSrc(s) {
+    if (['all', 't', 'b', 'both', 'bonly', 'star5', 'star4'].indexOf(s) >= 0) return true;
+    return /^sec:/.test(s) && SEC_NAME[s.slice(4)] != null;
+  }
+  function adopt(obj) {
+    var d = defaults();
+    if (obj && typeof obj === 'object') {
+      Object.keys(d).forEach(function (k) {
+        if (obj[k] === undefined || obj[k] === null) return;
+        if (k === 'deck') { if (Array.isArray(obj[k])) d[k] = obj[k]; return; }
+        if (typeof obj[k] === typeof d[k] && Array.isArray(obj[k]) === Array.isArray(d[k])) d[k] = obj[k];
+      });
+    }
+    if (['pdf', 'random'].indexOf(d.order) < 0) d.order = 'pdf';
+    if (['all', 'review', 'skipKnown'].indexOf(d.scope) < 0) d.scope = 'all';
+    if (['cards', 'srs', 'quiz'].indexOf(d.mode) < 0) d.mode = 'cards';
+    if (['ko2zh', 'au2zh', 'zh2ko'].indexOf(d.quizType) < 0) d.quizType = 'ko2zh';
+    if ([10, 20, 30].indexOf(d.quizLen) < 0) d.quizLen = 10;
+    if ([0, 10, 20, 30, 50].indexOf(d.srsNew) < 0) d.srsNew = 20;
+    if (d.cat !== 'all' && !CAT_NAME[d.cat]) d.cat = 'all';
+    if (!validSrc(d.src)) d.src = 'all';
+    state = d;
+    normalizeDeck();
+  }
+  function normalizeDeck() {
+    var ok = Array.isArray(state.deck) && state.dataSig === DATA_SIG && state.deck.every(function (n) { return BY_ID.has(n); });
+    if (!ok) {
+      var keep = Array.isArray(state.deck) ? state.deck[state.pos] : null;
+      state.dataSig = DATA_SIG;
+      rebuildDeck(keep || state.mainNo, true);
+    }
+    if (state.pos < 0 || state.pos >= state.deck.length) state.pos = 0;
+  }
+
+  function mark(id) { return state.marks.charAt(id - 1) || '.'; }
+  function setMark(id, m) {
+    touched.m[id] = 1;
+    var s = state.marks;
+    while (s.length < id) s += '.';
+    state.marks = s.slice(0, id - 1) + m + s.slice(id);
+  }
+  function countMarks(list) {
+    var k = 0, r = 0;
+    list.forEach(function (id) { var m = mark(id); if (m === 'k') k++; else if (m === 'r') r++; });
+    return { known: k, review: r, none: list.length - k - r };
+  }
+
+  /* ---------- range / deck ---------- */
+  function inSrc(w, src) {
+    switch (src) {
+      case 'all': return true;
+      case 't': return !!w.no;
+      case 'b': return !!w.b;
+      case 'both': return !!(w.b && w.no);
+      case 'bonly': return !!(w.b && !w.no);
+      case 'star5': return w._star >= 5;
+      case 'star4': return w._star >= 4;
+    }
+    if (src.indexOf('sec:') === 0) return src.slice(4) in w._sk;
+    return true;
+  }
+  function inRange(w, scope, cat, src) {
+    if (!inSrc(w, src == null ? state.src : src)) return false;
+    if ((cat == null ? state.cat : cat) !== 'all' && w.cat !== (cat == null ? state.cat : cat)) return false;
+    var m = mark(w.id);
+    scope = scope == null ? state.scope : scope;
+    if (scope === 'review') return m === 'r';
+    if (scope === 'skipKnown') return m !== 'k';
+    return true;
+  }
+  function orderKey(w) {
+    var s = state.src;
+    if (s.indexOf('sec:') === 0) return w._sk[s.slice(4)];
+    if (s === 'b' || s === 'bonly' || s === 'star5' || s === 'star4') return w._bk;
+    return w.no ? w.no : 100000 + (w._bk === Infinity ? w.id : w._bk);
+  }
+  function rangeWords(scope) {
+    var list = WORDS.filter(function (w) { return inRange(w, scope); });
+    list.sort(function (a, b) { return orderKey(a) - orderKey(b) || a.id - b.id; });
+    return list;
+  }
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function isMainDeck() { return state.src === 'all' && state.scope === 'all' && state.cat === 'all' && state.order === 'pdf'; }
+  function rebuildDeck(keepId, frontInRandom) {
+    var list = rangeWords().map(function (w) { return w.id; });
+    if (state.order === 'random') {
+      shuffle(list);
+      if (keepId && frontInRandom) { var i = list.indexOf(keepId); if (i > 0) { list.splice(i, 1); list.unshift(keepId); } }
+    }
+    state.deck = list;
+    var idx = keepId ? list.indexOf(keepId) : -1;
+    state.pos = idx >= 0 ? idx : 0;
+    state.done = false;
+  }
+  function currentId() { return state.deck[state.pos]; }
+  function srcLabel(src) {
+    src = src || state.src;
+    var map = { all: '全部（兩本）', t: 'TOPIK 1671', b: BOOK_B.short, both: '兩本都有', bonly: '只在' + BOOK_B.short, star5: '書中★★★★★', star4: '書中★★★★以上' };
+    if (map[src]) return map[src];
+    if (src.indexOf('sec:') === 0) return SEC_NAME[src.slice(4)] || '';
+    return '';
+  }
+  function rangeLabel() {
+    var s = srcLabel();
+    if (state.cat !== 'all') s += '・' + CAT_NAME[state.cat];
+    if (state.scope === 'review') s += '・只複習「再複習」';
+    else if (state.scope === 'skipKnown') s += '・略過已熟悉';
+    return s;
+  }
+
+  function save() {
+    state.updatedAt = Date.now();
+    if (!Sync.loaded) touched.moved = true;
+    if (isMainDeck() && state.deck.length && !state.done) state.mainNo = currentId();
+    writeLocal();
+    Sync.queue();
+  }
+
+  /* ================= speech ================= */
+  var Speech = {
+    supported: typeof window.speechSynthesis !== 'undefined' && typeof window.SpeechSynthesisUtterance !== 'undefined',
+    status: 'checking', voices: [], voice: null, token: 0, playing: null, lastKey: '', lastAt: 0, safety: 0,
+    init: function () {
+      if (!this.supported) { this.status = 'unsupported'; voiceUI(); return; }
+      var self = this;
+      this.load(false);
+      try { speechSynthesis.addEventListener('voiceschanged', function () { self.load(false); }); }
+      catch (e) { speechSynthesis.onvoiceschanged = function () { self.load(false); }; }
+      setTimeout(function () { self.load(true); }, 2500);
+    },
+    load: function (final) {
+      if (!this.supported) return;
+      var all = [];
+      try { all = speechSynthesis.getVoices() || []; } catch (e) { all = []; }
+      this.voices = all.filter(function (v) { return /^ko([-_]|$)/i.test(v.lang || ''); });
+      if (this.voices.length) this.status = 'ready';
+      else if (all.length || final) this.status = 'none';
+      this.pick();
+      voiceUI();
+    },
+    score: function (v) {
+      var n = (v.name || '') + ' ' + (v.voiceURI || '');
+      var s = 0;
+      if (/natural|premium|enhanced|neural|online/i.test(n)) s += 3;
+      if (/google/i.test(n)) s += 2;
+      if (/yuna|sunhi|injoon|heami|sora|minjun/i.test(n)) s += 2;
+      if (v.localService) s += 1;
+      if (/^ko-KR$/i.test((v.lang || '').replace('_', '-'))) s += 1;
+      return s;
+    },
+    pick: function () {
+      var self = this, chosen = null;
+      if (state.voiceURI) chosen = this.voices.filter(function (v) { return v.voiceURI === state.voiceURI; })[0] || null;
+      if (!chosen && this.voices.length) chosen = this.voices.slice().sort(function (a, b) { return self.score(b) - self.score(a); })[0];
+      this.voice = chosen;
+    },
+    ready: function () { return this.status === 'ready' && !!this.voice; },
+    speak: function (text, slow, quiet) {
+      var self0 = this;
+      text = String(text).replace(/[／\/]/g, ', ');
+      if (this.status === 'checking') {
+        setTimeout(function () { self0.load(true); if (self0.ready()) self0.speak(text, slow, quiet); else if (!quiet) openVoiceHelp(); }, 700);
+        return;
+      }
+      if (!this.ready()) {
+        this.load(true);
+        if (!this.ready()) { if (!quiet) openVoiceHelp(); return; }
+      }
+      var key = text + (slow ? '|s' : '|n');
+      var now = Date.now();
+      if (key === this.lastKey && now - this.lastAt < 300) return;   // ignore accidental double taps
+      this.lastKey = key; this.lastAt = now;
+      var self = this, synth = window.speechSynthesis, token = ++this.token, voice = this.voice;
+      var go = function () {
+        if (token !== self.token) return;
+        var u = new SpeechSynthesisUtterance(text);
+        u.voice = voice;
+        u.lang = (voice.lang || 'ko-KR').replace('_', '-');
+        u.rate = slow ? 0.6 : 1;
+        u.pitch = 1;
+        u.onstart = function () { if (token === self.token) self.setPlaying(slow ? 'slow' : 'normal'); };
+        u.onend = u.onerror = function () { if (token === self.token) self.setPlaying(null); };
+        self.setPlaying(slow ? 'slow' : 'normal');
+        clearTimeout(self.safety);
+        self.safety = setTimeout(function () { if (token === self.token) self.setPlaying(null); }, (slow ? 6000 : 4000) + text.length * 120);
+        synth.speak(u);
+      };
+      if (synth.speaking || synth.pending) { synth.cancel(); setTimeout(go, 90); }
+      else { try { if (synth.paused) synth.resume(); } catch (e) {} go(); }
+    },
+    stop: function () {
+      this.token++;
+      this.lastKey = '';
+      if (this.supported) { try { if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel(); } catch (e) {} }
+      this.setPlaying(null);
+    },
+    setPlaying: function (which) {
+      this.playing = which;
+      $$('.js-play').forEach(function (b) {
+        var slow = b.getAttribute('data-slow') === '1';
+        b.classList.toggle('playing', which === (slow ? 'slow' : 'normal'));
+      });
+    }
+  };
+
+  function voiceUI() {
+    var banner = $('voiceBanner'), st = $('voiceStatus'), row = $('voicePickRow');
+    if (Speech.status === 'ready') {
+      banner.hidden = true;
+      st.textContent = '已使用韓語語音：' + (Speech.voice ? Speech.voice.name : '') + (Speech.voices.length > 1 ? '（共 ' + Speech.voices.length + ' 個可選）' : '');
+      row.hidden = Speech.voices.length < 2;
+      $('selVoice').innerHTML = Speech.voices.map(function (v) {
+        return '<option value="' + esc(v.voiceURI) + '"' + (Speech.voice && v.voiceURI === Speech.voice.voiceURI ? ' selected' : '') + '>' + esc(v.name) + '（' + esc(v.lang) + '）</option>';
+      }).join('');
+    } else if (Speech.status === 'checking') {
+      banner.hidden = true; st.textContent = '正在偵測韓語語音…'; row.hidden = true;
+    } else {
+      banner.hidden = false; row.hidden = true;
+      var msg = Speech.status === 'unsupported'
+        ? '這個瀏覽器不支援語音播放（App 內建瀏覽器常見）。請改用 Safari 或 Chrome 開啟。'
+        : '這台裝置找不到韓語語音，暫時無法播放。';
+      $('voiceBannerText').textContent = msg;
+      st.textContent = msg + '可以先用下方說明安裝韓語語音，或到線上辭典聽發音。';
+    }
+  }
+
+  /* ================= sync to the viewer's account (only inside the Claude viewer) ================= */
+  var Sync = {
+    ref: null, status: 'checking', loaded: false, writing: false, pending: false, timer: 0, lastOk: 0, err: '', fails: 0, why: '',
+    init: function () {
+      var c = window.claude;
+      if (!c || typeof c.use !== 'function') { this.why = 'nohost'; this.setStatus('off'); return; }
+      this.setStatus('checking');
+      Promise.all([c.use('db'), c.use('user')]).then(function (r) {
+        var db = r[0], user = r[1];
+        if (!db || !user) { Sync.why = 'signedout'; return null; }
+        return user.id().then(function (uid) {
+          if (!uid) { Sync.why = 'signedout'; return null; }
+          Sync.ref = db.doc('data/users/' + uid + '/progress');
+          return Sync.load(0);
+        });
+      }).then(function () { if (!Sync.ref) Sync.setStatus('off'); })
+        .catch(function (e) { Sync.ref = null; Sync.why = 'error'; Sync.err = (e && e.code) || ''; Sync.setStatus('off'); });
+    },
+    load: function (attempt) {
+      return Sync.ref.get().then(function (snap) {
+        var remote = snap.exists ? (snap.data() || {}).state : null;
+        Sync.loaded = true;
+        Sync.lastOk = Date.now();
+        Sync.setStatus('ok');
+        mergeRemote(remote);
+      }, function (e) {
+        var code = (e && e.code) || '';
+        if ((code === 'unavailable' || code === 'resource_exhausted') && attempt < 3) {
+          return new Promise(function (res) { setTimeout(function () { res(Sync.load(attempt + 1)); }, 1500 * (attempt + 1)); });
+        }
+        Sync.ref = null; Sync.why = 'error'; Sync.err = code; Sync.setStatus('off');
+      });
+    },
+    queue: function (delay) {
+      this.pending = true;
+      if (!this.ref || !this.loaded) return;          // never write before the account copy has been read
+      clearTimeout(this.timer);
+      this.timer = setTimeout(function () { Sync.flush(); }, delay == null ? 700 : delay);
+    },
+    flush: function () {
+      if (!this.ref || !this.loaded || !this.pending) return;
+      clearTimeout(this.timer); this.timer = 0;
+      if (this.writing) return;
+      this.writing = true; this.pending = false;
+      this.setStatus('saving');
+      var body = { state: JSON.parse(JSON.stringify(state)), savedAt: Date.now() };
+      this.ref.set(body).then(function () {
+        Sync.fails = 0; Sync.lastOk = Date.now(); Sync.setStatus('ok');
+      }, function (e) {
+        var code = (e && e.code) || 'error';
+        Sync.pending = true; Sync.fails++; Sync.err = code;
+        if (['not_granted', 'revoked', 'capability_disabled', 'capability_removed'].indexOf(code) >= 0) {
+          Sync.ref = null; Sync.why = 'error'; Sync.setStatus('off');
+        } else {
+          Sync.setStatus('error');
+          setTimeout(function () { Sync.queue(0); }, Math.min(30000, 2000 * Sync.fails));
+        }
+      }).then(function () {
+        Sync.writing = false;
+        if (Sync.pending && Sync.status === 'ok') Sync.queue();
+      });
+    },
+    setStatus: function (st) { this.status = st; saveUI(); }
+  };
+  /* Combine the account copy with what this device already has. The account wins for anything not touched here
+     since opening; marks, review schedule and position changed here in the meantime are kept. */
+  function mergeRemote(remote) {
+    if (!remote || typeof remote !== 'object') { if (state.updatedAt) Sync.queue(0); return; }
+    var rAt = remote.updatedAt || 0;
+    if (rAt <= bootUpdatedAt) { if (state.updatedAt > rAt) Sync.queue(0); return; }
+    var local = JSON.parse(JSON.stringify(state));
+    var changedHere = state.updatedAt > bootUpdatedAt;
+    Speech.stop();
+    adopt(JSON.parse(JSON.stringify(remote)));
+    if (changedHere) {
+      if (touched.allMarks) state.marks = local.marks;
+      else Object.keys(touched.m).forEach(function (k) {
+        var id = +k, m = local.marks.charAt(id - 1) || '.', s2 = state.marks;
+        while (s2.length < id) s2 += '.';
+        state.marks = s2.slice(0, id - 1) + m + s2.slice(id);
+      });
+      if (touched.allSrs) { state.srs = local.srs; state.srsDay = local.srsDay; state.srsQ = local.srsQ; }
+      else if (Object.keys(touched.s).length) {
+        Object.keys(touched.s).forEach(function (k) { if (local.srs[k]) state.srs[k] = local.srs[k]; else delete state.srs[k]; });
+        var ld = local.srsDay || {}, rd = state.srsDay || {};
+        if (ld.d && ld.d === rd.d) {
+          if (!Array.isArray(rd.intro)) rd.intro = [];
+          (ld.intro || []).forEach(function (id) { if (rd.intro.indexOf(id) < 0) rd.intro.push(id); });
+          rd.ok = Math.max(rd.ok || 0, ld.ok || 0); rd.bad = Math.max(rd.bad || 0, ld.bad || 0);
+        } else if ((ld.d || 0) > (rd.d || 0)) state.srsDay = ld;
+        state.srsQ = local.srsQ;
+      }
+      if (touched.moved) ['mode', 'src', 'cat', 'scope', 'order', 'deck', 'pos', 'done', 'mainNo', 'hideZh', 'dataSig'].forEach(function (k) { state[k] = local[k]; });
+      state.updatedAt = Date.now();
+      writeLocal();
+      Sync.queue(0);
+    } else {
+      writeLocal();
+      quiz = null;
+    }
+    Speech.pick(); voiceUI();
+    render();
+    if (!$('settingsScrim').hidden) settingsUI();
+    toast('已載入你帳號中的複習進度');
+  }
+  function saveUI() {
+    var chip = $('saveChip'), st = Sync.status, cls, text, icon;
+    var ICON_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>';
+    var ICON_WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 4v10M12 19v.5"/></svg>';
+    var ICON_DOT = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>';
+    if (st === 'ok') { cls = 'ok'; text = '已同步'; icon = ICON_OK; }
+    else if (st === 'checking' || st === 'saving') { cls = ''; text = st === 'saving' ? '同步中' : '連線中'; icon = ICON_DOT; }
+    else if (st === 'error') { cls = 'warn'; text = '同步失敗'; icon = ICON_WARN; }
+    else if (LOCAL_OK) { cls = 'local'; text = '只存本機'; icon = ICON_DOT; }
+    else { cls = 'warn'; text = '未保存'; icon = ICON_WARN; }
+    chip.className = 'save-chip ' + cls;
+    chip.innerHTML = icon + '<span>' + text + '</span>';
+
+    var banner = $('saveBanner'), msg = '';
+    if (!bannerDismissed) {
+      if (st === 'error') msg = '進度暫時無法同步到帳號，網頁會自動重試。';
+      else if (st === 'off' && !LOCAL_OK) msg = '這個開啟方式無法保存進度，重新整理就會清空。';
+      else if (st === 'off' && freshStorage && Sync.why !== 'nohost') msg = '目前沒有登入 Claude，進度只暫存在這個瀏覽器，可能會被清除。';
+    }
+    banner.hidden = !msg;
+    $('saveBannerText').textContent = msg;
+
+    var box = $('saveStatus'), t = '';
+    var when = Sync.lastOk ? new Date(Sync.lastOk).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' }) : '';
+    if (st === 'ok') t = '<b>已同步到你的 Claude 帳號</b>最後同步：' + esc(when) + '。重新整理、關掉網頁或換裝置登入後開啟，都能接著複習。';
+    else if (st === 'saving' || st === 'checking') t = '<b>正在連線到你的 Claude 帳號…</b>稍等幾秒。';
+    else if (st === 'error') t = '<b>暫時無法同步</b>網頁會自動重試' + (Sync.err ? '（' + esc(Sync.err) + '）' : '') + '。在恢復之前，建議先複製備份碼。';
+    else {
+      var why = Sync.why === 'signedout' ? '目前沒有登入 Claude，或是用公開連結開啟。'
+        : Sync.why === 'nohost' ? '這是一般網頁（例如自架版），不會同步到 Claude 帳號。'
+        : '無法連線到你的 Claude 帳號' + (Sync.err ? '（' + esc(Sync.err) + '）' : '') + '。';
+      t = '<b>' + (LOCAL_OK ? '進度只存在這台裝置的瀏覽器' : '進度目前無法保存') + '</b>' + why +
+          (LOCAL_OK ? '清除瀏覽器資料、無痕模式，或瀏覽器限制網頁存資料時，進度會不見。' : '這個開啟方式不允許網頁存資料，重新整理就會清空。請登入 Claude 後開啟，或用備份碼保存。');
+    }
+    box.className = 'status-box ' + (st === 'ok' ? 'ok' : (st === 'error' || (st === 'off' && !LOCAL_OK)) ? 'warn' : '');
+    box.innerHTML = t;
+    syncText();
+  }
+  function syncText() {
+    $('syncText').textContent = Sync.status === 'ok'
+      ? '已同步到你的 Claude 帳號；換手機或電腦登入後開啟同一個連結也能接著複習。'
+      : (LOCAL_OK ? '目前只存在這台裝置的瀏覽器，沒有同步到帳號。' : '目前無法保存進度，建議使用備份碼。');
+  }
+
+  /* ---------- backup code ---------- */
+  function makeBackup() {
+    var r = [], k = [];
+    for (var i = 0; i < state.marks.length; i++) { var c = state.marks.charAt(i); if (c === 'r') r.push(i + 1); else if (c === 'k') k.push(i + 1); }
+    var sl = Object.keys(state.srs).map(function (id) { var e = state.srs[id]; return [+id, e[0], e[1]]; });
+    var cur = state.deck.length ? state.deck[Math.min(state.pos, state.deck.length - 1)] : state.mainNo;
+    var o = { v: 1, t: Date.now(), r: r, k: k, s: sl, d: state.srsDay,
+              p: { src: state.src, cat: state.cat, scope: state.scope, order: state.order, hideZh: state.hideZh, srsNew: state.srsNew,
+                   quizType: state.quizType, quizLen: state.quizLen, mainNo: state.mainNo, cur: cur, mode: state.mode } };
+    return 'KOREAN1:' + btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+  }
+  function readBackup(code) {
+    var m = /^KOREAN1:([A-Za-z0-9+\/=]+)$/.exec(String(code).replace(/\s+/g, ''));
+    if (!m) throw new Error('格式不對');
+    var o = JSON.parse(decodeURIComponent(escape(atob(m[1]))));
+    if (!o || !Array.isArray(o.r) || !Array.isArray(o.k) || !Array.isArray(o.s)) throw new Error('內容不完整');
+    return o;
+  }
+  function applyBackup(o) {
+    var marks = '';
+    var put = function (id, c) { if (!BY_ID.has(id)) return; while (marks.length < id) marks += '.'; marks = marks.slice(0, id - 1) + c + marks.slice(id); };
+    o.r.forEach(function (id) { put(+id, 'r'); });
+    o.k.forEach(function (id) { put(+id, 'k'); });
+    state.marks = marks;
+    state.srs = {};
+    o.s.forEach(function (e) { if (Array.isArray(e) && BY_ID.has(+e[0])) state.srs[+e[0]] = [+e[1] || 0, +e[2] || 0]; });
+    state.srsDay = (o.d && typeof o.d === 'object') ? o.d : {};
+    state.srsQ = {};
+    var p = o.p || {};
+    if (validSrc(p.src)) state.src = p.src;
+    state.cat = (p.cat === 'all' || CAT_NAME[p.cat]) ? p.cat : 'all';
+    if (['all', 'review', 'skipKnown'].indexOf(p.scope) >= 0) state.scope = p.scope;
+    if (['pdf', 'random'].indexOf(p.order) >= 0) state.order = p.order;
+    if (typeof p.hideZh === 'boolean') state.hideZh = p.hideZh;
+    if ([0, 10, 20, 30, 50].indexOf(p.srsNew) >= 0) state.srsNew = p.srsNew;
+    if (QUIZ_TYPE[p.quizType]) state.quizType = p.quizType;
+    if ([10, 20, 30].indexOf(p.quizLen) >= 0) state.quizLen = p.quizLen;
+    if (BY_ID.has(p.mainNo)) state.mainNo = p.mainNo;
+    state.mode = ['cards', 'srs', 'quiz'].indexOf(p.mode) >= 0 ? p.mode : 'cards';
+    rebuildDeck(BY_ID.has(p.cur) ? p.cur : state.mainNo, true);
+    touched.allMarks = touched.allSrs = touched.moved = true;
+    quiz = null; peek = false;
+    save(); render(); settingsUI();
+  }
+
+  /* ================= card rendering ================= */
+  function rubyHTML(ko, hz) {
+    var syl = Array.from(ko.replace(/\s/g, '').replace(/[?.!]$/, ''));
+    var ch = Array.from(hz);
+    if (syl.length !== ch.length) return '<span class="rb"><b>' + esc(hz) + '</b><i></i></span>';
+    return ch.map(function (c, i) {
+      return HANGUL_RE.test(c)
+        ? '<span class="rb rb-k"><b lang="ko">' + esc(c) + '</b><i></i></span>'
+        : '<span class="rb"><b>' + esc(c) + '</b><i lang="ko">' + esc(syl[i]) + '</i></span>';
+    }).join('');
+  }
+  function readingOf(w, c) {
+    var syl = Array.from(w.ko.replace(/\s/g, ''));
+    for (var k = 0; k < w.senses.length; k++) {
+      var h = w.senses[k].hanja;
+      if (!h || h === '待確認') continue;
+      var arr = Array.from(h.normalize('NFKC'));
+      var i = arr.indexOf(c);
+      if (i >= 0 && arr.length === syl.length) return syl[i];
+    }
+    return '';
+  }
+  function hanjaWith(w, c) {
+    for (var k = 0; k < w.senses.length; k++) {
+      var h = w.senses[k].hanja;
+      if (h && h !== '待確認' && h.normalize('NFKC').indexOf(c) >= 0) return h;
+    }
+    return '';
+  }
+  function relatedHTML(w) {
+    if (!w._hz.length) return '';
+    var rows = [];
+    w._hz.slice(0, 4).forEach(function (c) {
+      var others = (HZ_INDEX.get(c) || []).filter(function (x) { return x !== w; });
+      if (!others.length) return;
+      others = others.slice().sort(function (a, b) {
+        return ((a.no ? 0 : 1) - (b.no ? 0 : 1)) || (a.ko.length - b.ko.length) || (a.id - b.id);
+      });
+      var more = others.length > 6 ? others.length - 6 : 0;
+      var chips = others.map(function (x, k) {
+        return '<button type="button" class="chip" data-peek="' + x.id + '"' + (k >= 6 ? ' hidden' : '') + '><span class="k" lang="ko">' + esc(x.ko) + '</span><span class="h">' + esc(hanjaWith(x, c)) + '</span></button>';
+      }).join('');
+      if (more) chips += '<button type="button" class="chip chip-more" data-more="1">顯示全部（還有 ' + more + ' 個）</button>';
+      rows.push('<div class="rel-row"><div class="rel-char">' + esc(c) + '<small lang="ko">' + esc(readingOf(w, c)) + '</small></div><div class="rel-chips">' + chips + '</div></div>');
+    });
+    if (!rows.length) return '';
+    return '<section class="rel"><h3>同漢字聯想・點一下看意思</h3>' + rows.join('') + '</section>';
+  }
+  function srcLineHTML(w) {
+    var parts = [];
+    if (w.no) parts.push('TOPIK I 1671 第 ' + w.no + ' 號');
+    (w.b || []).slice(0, 4).forEach(function (r) {
+      parts.push(BOOK_B.short + ' p.' + r[1] + '（' + (SEC_NAME[r[0]] || '') + '）' + (r[3] ? ' ' + starStr(r[3]) : ''));
+    });
+    if ((w.b || []).length > 4) parts.push('等 ' + w.b.length + ' 處');
+    return '<p class="src-line"><span>出處</span>' + esc(parts.join('；')) + '</p>';
+  }
+  function answerHTML(w) {
+    var senses = w.senses || [];
+    var hzSet = {};
+    senses.forEach(function (s) { hzSet[(s.origin || '') + '|' + (s.hanja || '')] = 1; });
+    var uniform = Object.keys(hzSet).length === 1;
+    var first = senses[0] || {};
+    var html = '';
+    if (uniform) {
+      html += '<div class="hanja-block" lang="zh-Hant">' +
+              (first.hanja && first.hanja !== '待確認' ? '<div class="ruby">' + rubyHTML(w.ko, first.hanja) + '</div>' : '') +
+              '<div class="origin">' + esc(ORIGIN_LABEL[first.origin] || first.origin || '') + '</div></div>';
+    }
+    html += '<ol class="senses ' + (senses.length > 1 ? 'multi' : 'single') + '">';
+    senses.forEach(function (s, i) {
+      var tag = '';
+      if (!uniform) {
+        if (s.hanja && s.hanja !== '待確認') tag = '<span class="hz">' + esc(s.hanja) + '</span>' + esc(ORIGIN_LABEL[s.origin] || '');
+        else tag = esc(ORIGIN_LABEL[s.origin] || s.origin || '');
+      }
+      html += '<li><span class="num">' + (NUMS.charAt(i) || (i + 1) + '.') + '</span><span class="zh">' + esc(s.zh) + '</span><span class="tag">' + tag + '</span></li>';
+    });
+    html += '</ol>';
+    if (w.en) html += '<p class="en"><span>英文</span>' + esc(w.en) + '</p>';
+    if (w.note) html += '<p class="note"><span>附註</span>' + esc(w.note) + '</p>';
+    html += relatedHTML(w);
+    html += srcLineHTML(w);
+    return html;
+  }
+  function metaHTML(w, extra) {
+    var h = '';
+    if (w.no) h += '<span class="pill src-t">TOPIK ' + String(w.no).padStart(4, '0') + '</span>';
+    if (w.b && w.b.length) {
+      var r = w.b.filter(function (x) { return x[3]; })[0] || w.b[0];
+      h += '<span class="pill src-b">書 p.' + r[1] + (w._star ? ' <span class="stars" aria-label="' + w._star + ' 顆星">' + starStr(w._star) + '</span>' : '') + '</span>';
+    }
+    h += '<span class="pill">' + esc(CAT_NAME[w.cat] || '') + '</span>';
+    var m = mark(w.id);
+    if (m === 'k') h += '<span class="pill known">已熟悉</span>';
+    if (m === 'r') h += '<span class="pill review">再複習</span>';
+    return h + (extra || '');
+  }
+  function koClass(ko) {
+    var len = Array.from(ko.replace(/\s/g, '')).length;
+    if (len >= 9) return 'ko len-xl';
+    if (len >= 6 || /\s/.test(ko)) return 'ko len-l';
+    if (len >= 4) return 'ko len-m';
+    return 'ko';
+  }
+  function dictLinks(ko) {
+    var q = encodeURIComponent(ko.replace(/[?.!]$/, ''));
+    return (DATA.meta.dictionaries || []).map(function (d) {
+      return '<li><a href="' + esc(d.url.replace('{ko}', q)) + '" target="_blank" rel="noopener">' + esc(d.name) + '</a></li>';
+    }).join('');
+  }
+  var shownId = null;
+  function fillCard(w, hidden, revealHTML, extraMeta) {
+    $('cardMeta').innerHTML = metaHTML(w, extraMeta);
+    var ko = $('ko');
+    ko.textContent = w.ko;
+    ko.className = koClass(w.ko);
+    $('answer').innerHTML = answerHTML(w);
+    $('answer').hidden = hidden;
+    $('reveal').hidden = !hidden;
+    $('reveal').innerHTML = revealHTML || '';
+    $('dictLinks').innerHTML = dictLinks(w.ko);
+    if (shownId !== w.id) { $('card').scrollTop = 0; shownId = w.id; }
+  }
+
+  var PANELS = ['card', 'done', 'empty', 'srsDone', 'quizStart', 'quiz', 'quizDone'];
+  function show(id) { PANELS.forEach(function (p) { $(p).hidden = p !== id; }); }
+  function setProgress(text, label, frac) {
+    $('progText').textContent = text;
+    $('deckLabel').textContent = label;
+    $('barFill').style.width = (Math.max(0, Math.min(1, frac)) * 100).toFixed(2) + '%';
+  }
+
+  /* ================= render ================= */
+  function render() {
+    ['cards', 'srs', 'quiz'].forEach(function (m) {
+      $('tab' + m.charAt(0).toUpperCase() + m.slice(1)).setAttribute('aria-selected', String(state.mode === m));
+    });
+    $('dockCards').hidden = state.mode !== 'cards';
+    $('dockSrs').hidden = state.mode !== 'srs';
+    $('dockQuiz').hidden = state.mode !== 'quiz';
+    var n = srsCount();
+    $('srsBadge').hidden = !n;
+    $('srsBadge').textContent = n > 999 ? '999+' : n;
+    if (state.mode === 'srs') renderSrs();
+    else if (state.mode === 'quiz') renderQuiz();
+    else renderCards();
+  }
+
+  function renderCards() {
+    var deck = state.deck, total = deck.length;
+    if (!total) {
+      show('empty');
+      setProgress('第 0 ／ 0', rangeLabel(), 0);
+      if (state.scope === 'review') {
+        $('emptyTitle').textContent = '還沒有「再複習」的單字';
+        $('emptyText').textContent = '複習時遇到不熟的字，按下方的「再複習」，之後就能在這裡集中練習。測驗答錯的字也會自動加進來。';
+      } else {
+        $('emptyTitle').textContent = '這個範圍目前沒有單字';
+        $('emptyText').textContent = '這個範圍的單字可能都標記為「已熟悉」了。可以回到全部單字，或在設定換一個範圍。';
+      }
+      cardDock(false, false);
+      return;
+    }
+    if (state.done) {
+      show('done');
+      setProgress('完成 ' + total + ' ／ ' + total, rangeLabel(), 1);
+      var c = countMarks(deck);
+      $('doneSummary').textContent = rangeLabel() + '，共 ' + total + ' 個單字。';
+      $('doneKnown').textContent = c.known; $('doneReview').textContent = c.review; $('doneNone').textContent = c.none;
+      var allReview = countMarks(WORDS.map(function (w) { return w.id; })).review;
+      var dr = $('btnDoneReview');
+      dr.hidden = !(allReview > 0);
+      dr.textContent = state.scope === 'review' ? '再練一次「再複習」（' + allReview + ' 個）' : '只複習「再複習」的單字（' + allReview + ' 個）';
+      cardDock(false, true);
+      return;
+    }
+    show('card');
+    var w = BY_ID.get(deck[state.pos]);
+    setProgress('第 ' + (state.pos + 1) + ' ／ ' + total, rangeLabel() + '・' + (state.order === 'random' ? '隨機' : '原始順序'), (state.pos + 1) / total);
+    fillCard(w, state.hideZh && !peek, '中文已隱藏<small>先想想意思，再點這裡看答案</small>');
+    cardDock(true, true);
+  }
+  function cardDock(onCard, hasDeck) {
+    ['btnReview', 'btnKnown', 'btnHide'].forEach(function (id) { $(id).disabled = !onCard; });
+    $$('#dockCards .js-play').forEach(function (b) { b.disabled = !onCard; });
+    $('btnNext').disabled = !onCard;
+    $('btnPrev').disabled = !hasDeck || !state.deck.length || (onCard && state.pos === 0);
+    var m = onCard ? mark(currentId()) : '.';
+    $('btnReview').setAttribute('aria-pressed', String(m === 'r'));
+    $('btnKnown').setAttribute('aria-pressed', String(m === 'k'));
+    $('btnHide').setAttribute('aria-pressed', String(state.hideZh));
+    $('btnHideText').textContent = state.hideZh ? '顯示中文' : '隱藏中文';
+  }
+
+  /* ================= 今日複習 (spaced repetition) ================= */
+  function srsDay() {
+    var t = today();
+    if (!state.srsDay || state.srsDay.d !== t) state.srsDay = { d: t, intro: [], ok: 0, bad: 0, extra: 0 };
+    return state.srsDay;
+  }
+  function srsDueIds() {
+    var t = today(), out = [];
+    Object.keys(state.srs).forEach(function (k) {
+      var id = +k, e = state.srs[k];
+      if (BY_ID.has(id) && e[1] <= t) out.push([id, e[1]]);
+    });
+    out.sort(function (a, b) { return a[1] - b[1] || a[0] - b[0]; });
+    return out.map(function (x) { return x[0]; });
+  }
+  function srsNewIds(limit) {
+    if (limit <= 0) return [];
+    var out = [];
+    var list = rangeWords('all');
+    for (var i = 0; i < list.length && out.length < limit; i++) {
+      var w = list[i];
+      if (state.srs[w.id] || mark(w.id) === 'k') continue;
+      out.push(w.id);
+    }
+    return out;
+  }
+  function srsAllowance() { var d = srsDay(); return Math.max(0, state.srsNew + d.extra - d.intro.length); }
+  function srsBuild() {
+    var d = srsDay();
+    var q = srsDueIds().concat(srsNewIds(srsAllowance()));
+    state.srsQ = { d: d.d, q: q, i: 0, rev: false, range: state.src + '|' + state.cat };
+  }
+  function srsEnsure() {
+    var d = srsDay();
+    var Q = state.srsQ;
+    if (!Q || Q.d !== d.d || !Array.isArray(Q.q)) { srsBuild(); return; }
+    Q.q = Q.q.filter(function (id) { return BY_ID.has(id); });
+    if (Q.range !== state.src + '|' + state.cat) srsBuild();
+  }
+  function srsCount() {
+    var Q = state.srsQ;
+    if (Q && Q.d === today() && Array.isArray(Q.q) && Q.range === state.src + '|' + state.cat) return Math.max(0, Q.q.length - Q.i);
+    return srsDueIds().length + Math.min(srsAllowance(), srsNewIds(srsAllowance()).length);
+  }
+  function renderSrs() {
+    srsEnsure();
+    var Q = state.srsQ, d = srsDay();
+    var total = Q.q.length;
+    if (Q.i >= total) {
+      show('srsDone');
+      var t = today(), tomorrow = 0;
+      Object.keys(state.srs).forEach(function (k) { if (state.srs[k][1] <= t + 1) tomorrow++; });
+      var answered = d.ok + d.bad;
+      $('srsDoneTitle').textContent = answered ? '今天的複習完成了' : '今天沒有要複習的字';
+      $('srsDoneText').textContent = answered
+        ? '今天練習了 ' + answered + ' 次，新學 ' + d.intro.length + ' 個字。明天記得回來！'
+        : (state.srsNew ? '目前範圍（' + rangeLabel() + '）沒有可以新學的字了。可以在設定換一個單字來源或分類。' : '每天新字數設為 0。可以在設定調整，或按下方按鈕再學幾個新字。');
+      $('srsOk').textContent = d.ok; $('srsBad').textContent = d.bad; $('srsTomorrow').textContent = tomorrow;
+      var more = srsNewIds(10).length;
+      $('btnSrsMore').hidden = !more;
+      $('btnSrsMore').textContent = '再學 ' + more + ' 個新字';
+      $('srsDoneHint').textContent = '每天新字數：' + state.srsNew + ' 個（可在設定調整）・新字來源：' + rangeLabel();
+      setProgress('今日 ' + total + ' ／ ' + total, '記得 ' + d.ok + '・不記得 ' + d.bad, total ? 1 : 0);
+      return;
+    }
+    show('card');
+    var id = Q.q[Q.i], w = BY_ID.get(id), e = state.srs[id];
+    var info = !e ? '<span class="pill srs">新字</span>' : (e[0] === 0 ? '<span class="pill srs">再練一次</span>' : '<span class="pill srs">複習・第 ' + (e[0] + 1) + ' 輪</span>');
+    fillCard(w, !Q.rev, '想想看是什麼意思<small>點這裡或下方「顯示答案」</small>', info);
+    var due = 0, fresh = 0;
+    for (var k = Q.i; k < total; k++) { if (state.srs[Q.q[k]]) due++; else fresh++; }
+    setProgress('今日 ' + (Q.i + 1) + ' ／ ' + total, '待複習 ' + due + '・新字 ' + fresh, (Q.i + 1) / total);
+    $('srsRowShow').hidden = Q.rev;
+    $('srsRowAnswer').hidden = !Q.rev;
+  }
+  function srsReveal() { if (state.srsQ && !state.srsQ.rev) { state.srsQ.rev = true; save(); render(); } }
+  function srsAnswer(ok) {
+    var Q = state.srsQ, d = srsDay();
+    if (!Q || Q.i >= Q.q.length || !Q.rev) return;
+    var id = Q.q[Q.i], e = state.srs[id], t = today();
+    touched.s[id] = 1;
+    if (!e && d.intro.indexOf(id) < 0) d.intro.push(id);
+    if (ok) {
+      var box = e ? Math.min((e[0] || 0) + 1, SRS_INT.length) : 1;
+      state.srs[id] = [box, t + SRS_INT[box - 1]];
+      d.ok++;
+    } else {
+      state.srs[id] = [0, t];
+      d.bad++;
+      var at = Math.min(Q.q.length, Q.i + 4);
+      Q.q.splice(at, 0, id);
+    }
+    Q.i++;
+    Q.rev = false;
+    Speech.stop();
+    save(); render();
+  }
+
+  /* ================= 小測驗 ================= */
+  var QUIZ_TYPE = { ko2zh: '看韓文選中文', au2zh: '聽發音選中文', zh2ko: '看中文選韓文' };
+  function terms(w) {
+    if (!w._terms) {
+      var set = {};
+      w.senses.forEach(function (s) {
+        s.zh.replace(/（[^）]*）|\([^)]*\)/g, '').split(/[、；，,。！？!?：:／\/\s]+/).forEach(function (t) { t = t.trim(); if (t) set[t] = 1; });
+      });
+      w._terms = set;
+    }
+    return w._terms;
+  }
+  function overlap(a, b) {
+    var ta = terms(a), tb = terms(b);
+    for (var k in ta) if (tb[k]) return true;
+    return false;
+  }
+  function zhShort(w) { return w.senses.map(function (s) { return s.zh; }).join('；'); }
+  function pickDistractors(w, pool, n) {
+    var out = [];
+    function tryFrom(list) {
+      shuffle(list.slice()).forEach(function (x) {
+        if (out.length >= n || x === w || out.indexOf(x) >= 0) return;
+        if (x.ko.replace(/\s/g, '') === w.ko.replace(/\s/g, '')) return;
+        if (overlap(x, w) || out.some(function (o) { return overlap(o, x) || o.ko === x.ko; })) return;
+        out.push(x);
+      });
+    }
+    tryFrom(pool.filter(function (x) { return x.cat === w.cat; }));
+    if (out.length < n) tryFrom(WORDS.filter(function (x) { return x.cat === w.cat; }));
+    if (out.length < n) tryFrom(pool);
+    if (out.length < n) tryFrom(WORDS);
+    return out;
+  }
+  function quizPool() { return rangeWords(); }
+  function startQuiz(ids) {
+    var pool = quizPool();
+    var src = ids ? ids.map(function (id) { return BY_ID.get(id); }).filter(Boolean) : shuffle(pool.slice()).slice(0, state.quizLen);
+    if (!src.length) return;
+    if (state.quizType === 'au2zh' && !Speech.ready()) {
+      Speech.load(true);
+      if (!Speech.ready()) { toast('找不到韓語語音，改用「看韓文選中文」'); state.quizType = 'ko2zh'; }
+    }
+    quiz = { type: state.quizType, items: src.map(function (w) {
+      var opts = shuffle([w].concat(pickDistractors(w, pool, 3)));
+      return { id: w.id, opts: opts.map(function (o) { return o.id; }), ans: null };
+    }), i: 0, score: 0, wrong: [] };
+    save();
+    render();
+    if (quiz.type === 'au2zh') Speech.speak(BY_ID.get(quiz.items[0].id).ko, false, true);
+  }
+  function renderQuiz() {
+    if (!quiz) {
+      show('quizStart');
+      var n = quizPool().length;
+      $('quizRange').textContent = '範圍：' + rangeLabel() + '（' + n + ' 個字）';
+      $$('#segQuizType button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === state.quizType)); });
+      $$('#segQuizLen button').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.v === state.quizLen)); });
+      $('btnQuizStart').disabled = n < 1;
+      $('btnQuizStart').textContent = n < 1 ? '這個範圍沒有單字' : '開始測驗（' + Math.min(n, state.quizLen) + ' 題）';
+      setProgress('小測驗', rangeLabel(), 0);
+      $('dockQuiz').hidden = true;
+      return;
+    }
+    var total = quiz.items.length;
+    if (quiz.i >= total) {
+      show('quizDone');
+      $('dockQuiz').hidden = true;
+      var pct = Math.round(quiz.score / total * 100);
+      $('quizScoreKo').textContent = pct >= 90 ? '최고예요!' : pct >= 60 ? '좋아요!' : '화이팅!';
+      $('quizScore').textContent = '答對 ' + quiz.score + ' ／ ' + total + ' 題';
+      $('quizScoreText').textContent = quiz.wrong.length ? '答錯的字已加入「再複習」：' : '全部答對，太棒了！';
+      $('quizMiss').innerHTML = quiz.wrong.map(function (id) {
+        var w = BY_ID.get(id);
+        return '<li><span class="k" lang="ko">' + esc(w.ko) + '</span><span class="z">' + esc(zhShort(w)) + '</span></li>';
+      }).join('');
+      $('btnQuizRetryWrong').hidden = !quiz.wrong.length;
+      setProgress('答對 ' + quiz.score + ' ／ ' + total, QUIZ_TYPE[quiz.type], 1);
+      return;
+    }
+    show('quiz');
+    $('dockQuiz').hidden = false;
+    var it = quiz.items[quiz.i], w = BY_ID.get(it.id);
+    $('qCount').textContent = '第 ' + (quiz.i + 1) + ' ／ ' + total + ' 題';
+    $('qType').textContent = QUIZ_TYPE[quiz.type];
+    var answered = it.ans != null;
+    var p = '';
+    if (quiz.type === 'ko2zh' || (quiz.type === 'au2zh' && answered)) {
+      p = '<p class="' + koClass(w.ko) + '" lang="ko" style="margin:0">' + esc(w.ko) + '</p>';
+    } else if (quiz.type === 'au2zh') {
+      p = '<button type="button" class="q-listen js-play" data-slow="0" aria-label="再聽一次"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.8v14.4a1 1 0 0 0 1.5.86l12-7.2a1 1 0 0 0 0-1.72l-12-7.2A1 1 0 0 0 7 4.8z"/></svg></button><span class="q-hint">聽一聽，選出正確的中文意思</span>';
+    } else {
+      p = '<p class="q-zh">' + esc(zhShort(w)) + '</p>' + (answered ? '<p class="' + koClass(w.ko) + '" lang="ko" style="margin:0;font-size:32px">' + esc(w.ko) + '</p>' : '');
+    }
+    $('qPrompt').innerHTML = p;
+    var koOpts = quiz.type === 'zh2ko';
+    $('qOpts').innerHTML = it.opts.map(function (oid, k) {
+      var o = BY_ID.get(oid);
+      var cls = 'q-opt' + (koOpts ? ' ko-opt' : '');
+      if (answered) { if (oid === it.id) cls += ' right'; else if (oid === it.ans) cls += ' wrong'; }
+      return '<button type="button" class="' + cls + '" data-opt="' + oid + '"' + (answered ? ' disabled' : '') + '><span class="n">' + (k + 1) + '</span><span class="t"' + (koOpts ? ' lang="ko"' : '') + '>' +
+             esc(koOpts ? o.ko : zhShort(o)) + '</span></button>';
+    }).join('');
+    var fb = $('qFeedback');
+    if (!answered) { fb.textContent = ''; fb.className = 'q-feedback'; }
+    else if (it.ans === it.id) { fb.textContent = '答對了！'; fb.className = 'q-feedback ok'; }
+    else { fb.textContent = '正確答案：' + w.ko + '＝' + zhShort(w); fb.className = 'q-feedback bad'; }
+    $('btnQuizNext').disabled = !answered;
+    $('btnQuizPlay').disabled = quiz.type === 'zh2ko' && !answered;   // the sound would give the answer away
+    $('btnQuizNext').firstChild.textContent = quiz.i + 1 >= total ? '看結果 ' : '下一題 ';
+    setProgress('第 ' + (quiz.i + 1) + ' ／ ' + total + ' 題', '答對 ' + quiz.score + ' 題', (quiz.i + (answered ? 1 : 0)) / total);
+  }
+  function quizChoose(oid) {
+    var it = quiz && quiz.items[quiz.i];
+    if (!it || it.ans != null) return;
+    it.ans = oid;
+    if (oid === it.id) quiz.score++;
+    else {
+      quiz.wrong.push(it.id);
+      setMark(it.id, 'r');
+      save();
+    }
+    render();
+    Speech.speak(BY_ID.get(it.id).ko, false, true);
+  }
+  function quizNext() {
+    if (!quiz) return;
+    var it = quiz.items[quiz.i];
+    if (!it || it.ans == null) return;
+    Speech.stop();
+    quiz.i++;
+    render();
+    if (quiz.i < quiz.items.length && quiz.type === 'au2zh') Speech.speak(BY_ID.get(quiz.items[quiz.i].id).ko, false, true);
+  }
+
+  /* ================= card actions ================= */
+  function go(delta) {
+    if (!state.deck.length) return;
+    Speech.stop();
+    peek = false;
+    if (state.done) {
+      if (delta < 0) { state.done = false; state.pos = state.deck.length - 1; }
+    } else {
+      var p = state.pos + delta;
+      if (p < 0) return;
+      if (p >= state.deck.length) state.done = true;
+      else state.pos = p;
+    }
+    save(); render();
+  }
+  function toggleMark(m) {
+    if (state.done || !state.deck.length) return;
+    var id = currentId();
+    setMark(id, mark(id) === m ? '.' : m);
+    save(); render();
+  }
+  function setRange(opts) {
+    var keep = state.deck.length && !state.done ? currentId() : null;
+    var orderOnly = opts.order != null && opts.order !== state.order && opts.src == null && opts.cat == null && opts.scope == null;
+    if (opts.src != null) state.src = opts.src;
+    if (opts.cat != null) state.cat = opts.cat;
+    if (opts.scope != null) state.scope = opts.scope;
+    if (opts.order != null) state.order = opts.order;
+    var target = null;
+    if (isMainDeck()) target = state.mainNo;
+    else if (orderOnly) target = keep;
+    rebuildDeck(target, true);
+    Speech.stop(); peek = false; quiz = null;
+    save(); render(); settingsUI();
+  }
+  function restart() {
+    Speech.stop(); peek = false;
+    if (state.order === 'random' || state.scope !== 'all') rebuildDeck(null, false);
+    state.pos = 0; state.done = false;
+    save(); render();
+  }
+  function openInCards(id) {
+    var idx = state.deck.indexOf(id);
+    if (idx < 0) {
+      state.src = 'all'; state.cat = 'all'; state.scope = 'all'; state.order = 'pdf';
+      rebuildDeck(id, false);
+    } else { state.pos = idx; state.done = false; }
+    state.mode = 'cards';
+    Speech.stop(); peek = false;
+    save(); render(); settingsUI();
+  }
+
+  /* ================= sheets ================= */
+  var focusStack = [];
+  function openSheet(id, focusId) {
+    focusStack.push(document.activeElement);
+    $(id).hidden = false;
+    setTimeout(function () { try { $(focusId).focus({ preventScroll: true }); } catch (e) {} }, 30);
+  }
+  function closeSheet(id) {
+    if ($(id).hidden) return;
+    $(id).hidden = true;
+    var f = focusStack.pop();
+    if (f && f.focus) { try { f.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  function anySheetOpen() { return ['settingsScrim', 'voiceScrim', 'searchScrim', 'peekScrim', 'saveScrim'].some(function (id) { return !$(id).hidden; }); }
+  function closeTopSheet() { ['peekScrim', 'voiceScrim', 'saveScrim', 'searchScrim', 'settingsScrim'].some(function (id) { if (!$(id).hidden) { closeSheet(id); return true; } return false; }); }
+
+  function openSettings() { settingsUI(); voiceUI(); syncText(); openSheet('settingsScrim', 'settingsTitle'); }
+  function currentWord() {
+    if (state.mode === 'srs' && state.srsQ && state.srsQ.q && state.srsQ.i < state.srsQ.q.length) return BY_ID.get(state.srsQ.q[state.srsQ.i]);
+    if (state.mode === 'quiz' && quiz && quiz.items[quiz.i]) return BY_ID.get(quiz.items[quiz.i].id);
+    return state.deck.length ? BY_ID.get(currentId()) : WORDS[0];
+  }
+  function openVoiceHelp() {
+    var w = (!$('peekScrim').hidden && peekId) ? BY_ID.get(peekId) : currentWord();
+    var q = encodeURIComponent(w.ko.replace(/[?.!]$/, ''));
+    $('altLinks').innerHTML =
+      '<div lang="ko" style="font-family:var(--f-ko);font-size:26px;margin-bottom:4px">' + esc(w.ko) + '</div>' +
+      '<ul><li><a href="https://korean.dict.naver.com/kozhdict/#/search?query=' + q + '" target="_blank" rel="noopener">在 Naver 韓中辭典聽發音</a>（點喇叭圖示）</li>' +
+      '<li><a href="https://translate.google.com/?sl=ko&tl=zh-TW&text=' + q + '&op=translate" target="_blank" rel="noopener">在 Google 翻譯聽發音</a>（點韓文下方的喇叭）</li></ul>';
+    $('voiceWhy').textContent = Speech.status === 'unsupported'
+      ? '這個瀏覽器沒有提供語音朗讀功能（LINE、Facebook 等 App 內建瀏覽器常見）。請改用 Safari 或 Chrome 開啟這個網頁。'
+      : '這個網頁用手機或電腦內建的韓語語音朗讀。找不到韓語語音時，為了避免用中文或英文的聲音念錯，網頁不會播放。';
+    openSheet('voiceScrim', 'voiceTitle');
+  }
+
+  /* peek: look at any word without leaving the current card */
+  var peekId = null;
+  function openPeek(id) {
+    var w = BY_ID.get(id);
+    if (!w) return;
+    peekId = id;
+    $('peekTitle').textContent = w.ko;
+    $('peekMeta').innerHTML = metaHTML(w);
+    $('peekKo').textContent = w.ko;
+    $('peekAnswer').innerHTML = answerHTML(w);
+    $('btnPeekOpen').hidden = state.mode === 'cards' && state.deck[state.pos] === id && !state.done;
+    if ($('peekScrim').hidden) openSheet('peekScrim', 'peekTitle');
+    else { $('peekScrim').querySelector('.sheet-body').scrollTop = 0; }
+  }
+
+  /* search */
+  var searchTimer = 0;
+  function doSearch() {
+    var raw = $('inpSearch').value.trim();
+    var q = raw.replace(/\s/g, '').toLowerCase();
+    var box = $('searchResults');
+    if (!q) { box.innerHTML = ''; $('searchHint').textContent = '例如：학교、學校、學、謝謝'; return; }
+    var qn = q.normalize('NFKC');
+    var num = /^\d+$/.test(q) ? +q : null;
+    var hits = [];
+    WORDS.forEach(function (w) {
+      var s = w._q, score = -1;
+      if (num && w.no === num) score = 0;
+      else if (s[0] === q) score = 1;
+      else if (s[0].indexOf(q) === 0) score = 2;
+      else if (s[0].indexOf(q) >= 0) score = 3;
+      else if (s[2].indexOf(qn) >= 0) score = 4;
+      else if (s[1].indexOf(raw) >= 0 || s[1].indexOf(q) >= 0) score = 5;
+      else if (q.length >= 3 && s[3].indexOf(q) >= 0) score = 6;
+      if (score >= 0) hits.push([score, w]);
+    });
+    hits.sort(function (a, b) { return a[0] - b[0] || a[1].ko.length - b[1].ko.length || a[1].id - b[1].id; });
+    $('searchHint').textContent = hits.length ? '找到 ' + hits.length + ' 個' + (hits.length > 60 ? '，顯示前 60 個' : '') : '找不到「' + raw + '」。試試其他寫法，例如只打一部分。';
+    box.innerHTML = hits.slice(0, 60).map(function (h) {
+      var w = h[1];
+      var hz = w.senses.map(function (s) { return s.hanja && s.hanja !== '待確認' ? s.hanja : ''; }).filter(Boolean).join('／');
+      var src = (w.no ? 'TOPIK ' + w.no : '') + (w.no && w.b ? '・' : '') + (w.b ? '書 p.' + w.b[0][1] : '') + (w._star ? ' ' + starStr(w._star) : '');
+      return '<li><button type="button" class="result" data-peek="' + w.id + '"><span class="k" lang="ko">' + esc(w.ko) + '</span>' +
+             '<span class="z">' + esc(zhShort(w)) + '</span><span class="m">' + esc((hz ? hz + '・' : '') + src) + '</span></button></li>';
+    }).join('');
+  }
+
+  function settingsUI() {
+    var allIds = WORDS.map(function (w) { return w.id; });
+    var c = countMarks(allIds);
+    $('stKnown').textContent = c.known; $('stReview').textContent = c.review; $('stSrs').textContent = Object.keys(state.srs).length;
+    var cnt = function (scope) { return WORDS.filter(function (w) { return inRange(w, scope); }).length; };
+    $('cntAll').textContent = cnt('all') + ' 個';
+    $('cntReview').textContent = cnt('review') + ' 個';
+    $('cntSkip').textContent = cnt('skipKnown') + ' 個';
+    $$('#segScope button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.scope === state.scope)); });
+    $$('#segOrder button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.order === state.order)); });
+    $$('#segSrsNew button').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.v === state.srsNew)); });
+    $('btnReshuffle').hidden = state.order !== 'random';
+    var srcCount = function (s) { return WORDS.filter(function (w) { return inSrc(w, s); }).length; };
+    var opt = function (v, label) { return '<option value="' + esc(v) + '"' + (v === state.src ? ' selected' : '') + '>' + esc(label) + '（' + srcCount(v) + '）</option>'; };
+    $('selSrc').innerHTML = opt('all', '全部（兩本合併）') + opt('t', 'TOPIK I 1671') + opt('b', BOOK_B.short + '（第二本書）') +
+      opt('both', '兩本都有的字') + opt('bonly', '只在' + BOOK_B.short + '的字') + opt('star5', '書中 ★★★★★ 重要字') + opt('star4', '書中 ★★★★ 以上') +
+      '<optgroup label="' + esc(BOOK_B.short) + '的章節">' + (DATA.meta.sections || []).map(function (s) { return opt('sec:' + s.id, s.name); }).join('') + '</optgroup>';
+    $('selSrc').value = state.src;
+    $('srcHint').textContent = state.src === 'all'
+      ? '先依 TOPIK 編號，再接著第二本書新增的字。'
+      : (state.src === 't' ? '依 TOPIK PDF 的原始編號。' : '依第二本書的頁碼順序。★ 是書中標示的重要程度。');
+    var counts = {};
+    WORDS.forEach(function (w) { if (inSrc(w, state.src)) counts[w.cat] = (counts[w.cat] || 0) + 1; });
+    $('selCat').innerHTML = '<option value="all">全部分類（' + srcCount(state.src) + '）</option>' +
+      DATA.categories.filter(function (cat) { return counts[cat.id] || cat.id === state.cat; }).map(function (cat) {
+        return '<option value="' + cat.id + '"' + (cat.id === state.cat ? ' selected' : '') + '>' + esc(cat.name) + '（' + (counts[cat.id] || 0) + '）</option>';
+      }).join('');
+    $('selCat').value = state.cat;
+    var nT = WORDS.filter(function (w) { return w.no; }).length, nB = WORDS.filter(function (w) { return w.b; }).length;
+    var nBoth = WORDS.filter(function (w) { return w.no && w.b; }).length;
+    $('dataInfo').innerHTML = '共 <b>' + WORDS.length + '</b> 張卡片：TOPIK I 1671 有 ' + nT + ' 個；' + esc(BOOK_B.name) + '有 ' + nB + ' 個，其中 ' + nBoth + ' 個與 TOPIK 重複（合併成同一張卡），另外新增 ' + (nB - nBoth) + ' 個字、打招呼用語和慣用語。' +
+      '中文意思以韓文詞義為準；漢字詞附上韓國使用的漢字寫法，純韓語、外來語和片語不附漢字。每張卡片下方的「查詞典」可以再確認。' +
+      '<br><span class="hint">資料版本：' + esc(DATA.meta.built || '') + '</span>';
+  }
+
+  var armed = {};
+  function armed2(btnId, label, confirmLabel, action) {
+    var b = $(btnId);
+    if (armed[btnId]) {
+      clearTimeout(armed[btnId]); armed[btnId] = 0;
+      b.textContent = label;
+      action();
+      return;
+    }
+    b.textContent = confirmLabel;
+    armed[btnId] = setTimeout(function () { armed[btnId] = 0; b.textContent = label; }, 4000);
+  }
+
+  var toastTimer = 0;
+  function toast(msg) {
+    var t = $('toast');
+    t.textContent = msg; t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.hidden = true; }, 2400);
+  }
+
+  function setMode(m) {
+    if (m === state.mode) return;
+    Speech.stop(); peek = false;
+    state.mode = m;
+    if (m === 'srs') srsEnsure();
+    save(); render();
+  }
+
+  /* ================= wire up ================= */
+  $$('.tab').forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
+  $('btnNext').addEventListener('click', function () { go(1); });
+  $('btnPrev').addEventListener('click', function () { go(-1); });
+  document.addEventListener('click', function (e) {
+    var p = e.target.closest && e.target.closest('.js-play');
+    if (p) {
+      if (p.disabled) return;
+      var slow = p.getAttribute('data-slow') === '1';
+      var w = p.getAttribute('data-peek') ? BY_ID.get(peekId) : currentWord();
+      if (w) Speech.speak(w.ko, slow);
+      return;
+    }
+    var pk = e.target.closest && e.target.closest('[data-peek]');
+    if (pk && !pk.classList.contains('js-play')) { openPeek(+pk.getAttribute('data-peek')); return; }
+    var mo = e.target.closest && e.target.closest('[data-more]');
+    if (mo) {
+      Array.prototype.forEach.call(mo.parentNode.querySelectorAll('.chip[hidden]'), function (c) { c.hidden = false; });
+      mo.remove();
+      return;
+    }
+    var op = e.target.closest && e.target.closest('[data-opt]');
+    if (op) { quizChoose(+op.getAttribute('data-opt')); }
+  });
+  $('btnReview').addEventListener('click', function () { toggleMark('r'); });
+  $('btnKnown').addEventListener('click', function () { toggleMark('k'); });
+  $('btnHide').addEventListener('click', function () { state.hideZh = !state.hideZh; peek = false; save(); render(); });
+  $('reveal').addEventListener('click', function () {
+    if (state.mode === 'srs') srsReveal();
+    else { peek = true; render(); }
+  });
+  $('btnRestart').addEventListener('click', restart);
+  $('btnBackLast').addEventListener('click', function () { go(-1); });
+  $('btnDoneReview').addEventListener('click', function () { setRange({ scope: 'review' }); });
+  $('btnEmptyAll').addEventListener('click', function () { setRange({ src: 'all', cat: 'all', scope: 'all' }); });
+
+  $('btnSrsShow').addEventListener('click', srsReveal);
+  $('btnSrsGot').addEventListener('click', function () { srsAnswer(true); });
+  $('btnSrsForgot').addEventListener('click', function () { srsAnswer(false); });
+  $('btnSrsMore').addEventListener('click', function () {
+    var d = srsDay(); d.extra += 10;
+    var add = srsNewIds(srsAllowance());
+    state.srsQ.q = state.srsQ.q.concat(add.filter(function (id) { return state.srsQ.q.slice(state.srsQ.i).indexOf(id) < 0; }));
+    save(); render();
+  });
+  $('btnSrsCards').addEventListener('click', function () { setMode('cards'); });
+
+  $$('#segQuizType button').forEach(function (b) { b.addEventListener('click', function () { state.quizType = b.dataset.v; save(); render(); }); });
+  $$('#segQuizLen button').forEach(function (b) { b.addEventListener('click', function () { state.quizLen = +b.dataset.v; save(); render(); }); });
+  $('btnQuizStart').addEventListener('click', function () { startQuiz(); });
+  $('btnQuizNext').addEventListener('click', quizNext);
+  $('btnQuizAgain').addEventListener('click', function () { startQuiz(); });
+  $('btnQuizRetryWrong').addEventListener('click', function () { if (quiz) startQuiz(quiz.wrong.slice()); });
+  $('btnQuizBack').addEventListener('click', function () { quiz = null; render(); });
+
+  $('btnSettings').addEventListener('click', openSettings);
+  var openSave = function () { saveUI(); $('backupOut').hidden = true; openSheet('saveScrim', 'saveTitle'); };
+  $('saveChip').addEventListener('click', openSave);
+  $('saveBannerBtn').addEventListener('click', openSave);
+  $('btnOpenSave').addEventListener('click', function () { closeSheet('settingsScrim'); openSave(); });
+  $('btnCloseSave').addEventListener('click', function () { closeSheet('saveScrim'); });
+  $('btnMakeBackup').addEventListener('click', function () {
+    var code = makeBackup(), out = $('backupOut');
+    out.value = code; out.hidden = false;
+    var done = function () { $('backupHint').textContent = '已複製（' + code.length + ' 個字元）。請貼到備忘錄或傳給自己保存。'; toast('已複製備份碼'); };
+    var manual = function () { out.focus(); out.select(); $('backupHint').textContent = '請長按上面的備份碼，全選後複製，貼到備忘錄保存。'; };
+    try { navigator.clipboard.writeText(code).then(done, manual); } catch (e) { manual(); }
+  });
+  $('btnRestore').addEventListener('click', function () {
+    var o;
+    try { o = readBackup($('backupIn').value); }
+    catch (e) { toast('備份碼無法讀取：' + e.message + '。請確認有完整貼上。'); return; }
+    armed2('btnRestore', '還原', '再按一次確認還原', function () {
+      applyBackup(o);
+      $('backupIn').value = '';
+      toast('已從備份碼還原（' + (o.r.length + o.k.length) + ' 個標記、' + o.s.length + ' 個複習排程）');
+    });
+  });
+  $('btnCloseSettings').addEventListener('click', function () { closeSheet('settingsScrim'); });
+  $('btnCloseVoice').addEventListener('click', function () { closeSheet('voiceScrim'); });
+  $('btnClosePeek').addEventListener('click', function () { closeSheet('peekScrim'); });
+  $('btnPeekOpen').addEventListener('click', function () {
+    var id = peekId;
+    closeSheet('peekScrim'); closeSheet('searchScrim');
+    openInCards(id);
+  });
+  $('btnSearch').addEventListener('click', function () { openSheet('searchScrim', 'inpSearch'); doSearch(); });
+  $('btnCloseSearch').addEventListener('click', function () { closeSheet('searchScrim'); });
+  $('inpSearch').addEventListener('input', function () { clearTimeout(searchTimer); searchTimer = setTimeout(doSearch, 120); });
+  $('voiceBannerBtn').addEventListener('click', openVoiceHelp);
+  $('btnVoiceHelp').addEventListener('click', openVoiceHelp);
+  $('btnRedetect').addEventListener('click', function () {
+    Speech.load(true);
+    if (Speech.ready()) { closeSheet('voiceScrim'); toast('找到韓語語音：' + Speech.voice.name); }
+    else toast('還是找不到韓語語音');
+  });
+  ['settingsScrim', 'voiceScrim', 'searchScrim', 'peekScrim', 'saveScrim'].forEach(function (id) {
+    $(id).addEventListener('click', function (e) { if (e.target === $(id)) closeSheet(id); });
+  });
+  $('selSrc').addEventListener('change', function () { setRange({ src: this.value, cat: 'all' }); });
+  $('selCat').addEventListener('change', function () { setRange({ cat: this.value }); });
+  $$('#segScope button').forEach(function (b) { b.addEventListener('click', function () { if (b.dataset.scope !== state.scope) setRange({ scope: b.dataset.scope }); }); });
+  $$('#segOrder button').forEach(function (b) { b.addEventListener('click', function () { if (b.dataset.order !== state.order) setRange({ order: b.dataset.order }); }); });
+  $$('#segSrsNew button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.srsNew = +b.dataset.v;
+      var Q = state.srsQ;
+      if (Q && Q.q) {   // keep today's answered part, refresh what is still ahead
+        var ahead = srsDueIds().concat(srsNewIds(srsAllowance()));
+        Q.q = Q.q.slice(0, Q.i).concat(ahead);
+      }
+      save(); settingsUI(); render();
+    });
+  });
+  $('btnReshuffle').addEventListener('click', function () { restart(); closeSheet('settingsScrim'); toast('已重新洗牌'); });
+  $('btnJump').addEventListener('click', function () {
+    var n = parseInt($('inpJump').value, 10);
+    if (!n) { toast('請輸入編號'); return; }
+    var w = BY_NO.get(n);
+    if (!w) { toast('找不到 TOPIK 編號 ' + n + '（範圍 1–1671）'); return; }
+    $('inpJump').value = '';
+    closeSheet('settingsScrim');
+    openInCards(w.id);
+  });
+  $('inpJump').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('btnJump').click(); });
+  $('btnToFirst').addEventListener('click', function () { state.mode = 'cards'; restart(); closeSheet('settingsScrim'); });
+  $('btnClearMarks').addEventListener('click', function () {
+    armed2('btnClearMarks', '清除所有標記', '再按一次確認清除', function () {
+      state.marks = ''; touched.allMarks = true;
+      if (state.scope !== 'all') { state.scope = 'all'; rebuildDeck(state.deck.length && !state.done ? currentId() : null, false); }
+      save(); render(); settingsUI(); toast('已清除所有標記');
+    });
+  });
+  $('btnClearSrs').addEventListener('click', function () {
+    armed2('btnClearSrs', '清除今日複習的排程紀錄', '再按一次確認清除排程', function () {
+      state.srs = {}; state.srsDay = {}; state.srsQ = {}; touched.allSrs = true;
+      save(); render(); settingsUI(); toast('已清除今日複習的排程紀錄');
+    });
+  });
+  $('selVoice').addEventListener('change', function () { state.voiceURI = this.value; Speech.pick(); save(); voiceUI(); });
+  $('btnTestVoice').addEventListener('click', function () { Speech.speak('안녕하세요', false); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) { if (e.key === 'Escape') closeTopSheet(); return; }
+    if (anySheetOpen()) { if (e.key === 'Escape') closeTopSheet(); return; }
+    if (state.mode === 'cards') {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    } else if (state.mode === 'srs') {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); srsReveal(); }
+      else if (e.key === '1') srsAnswer(false);
+      else if (e.key === '2') srsAnswer(true);
+    } else if (state.mode === 'quiz' && quiz && quiz.items[quiz.i]) {
+      var k = parseInt(e.key, 10);
+      if (k >= 1 && k <= 4) { var it = quiz.items[quiz.i]; if (it.opts[k - 1]) quizChoose(it.opts[k - 1]); }
+      else if (e.key === 'Enter' || e.key === 'ArrowRight') { e.preventDefault(); quizNext(); }
+    }
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { Speech.stop(); Sync.flush(); }
+    else if (state.mode === 'srs' && state.srsQ && state.srsQ.d !== today()) render();
+  });
+  window.addEventListener('pagehide', function () { Speech.stop(); Sync.flush(); });
+  $('saveBannerClose').addEventListener('click', function () { bannerDismissed = true; saveUI(); });
+
+  /* home-screen support: only takes effect when the page is opened on its own (not inside another page) */
+  (function addAppMeta() {
+    var head = document.head;
+    if (!head) return;
+    var add = function (tag, attrs) {
+      var sel = tag + Object.keys(attrs).filter(function (k) { return k === 'rel' || k === 'name'; }).map(function (k) { return '[' + k + '="' + attrs[k] + '"]'; }).join('');
+      if (document.querySelector(sel)) return;
+      var el = document.createElement(tag);
+      Object.keys(attrs).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+      head.appendChild(el);
+    };
+    add('link', { rel: 'manifest', href: 'manifest.webmanifest' });
+    add('link', { rel: 'apple-touch-icon', href: 'apple-touch-icon.png' });
+    add('meta', { name: 'apple-mobile-web-app-capable', content: 'yes' });
+    add('meta', { name: 'mobile-web-app-capable', content: 'yes' });
+    add('meta', { name: 'apple-mobile-web-app-title', content: '韓文單字' });
+    add('meta', { name: 'theme-color', content: '#FFF3F5' });
+    try {
+      if ('serviceWorker' in navigator && window.top === window && !window.claude && location.protocol === 'https:') {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      }
+    } catch (e) {}
+  })();
+
+  /* ================= boot ================= */
+  var saved = readLocal();
+  var freshStorage = !saved;
+  var bannerDismissed = false;
+  adopt(saved);
+  bootUpdatedAt = state.updatedAt || 0;
+  if (saved && saved.dataSig !== DATA_SIG) writeLocal();   // word list changed (e.g. a new book added): keep the upgraded deck
+  if (!document.documentElement.lang) document.documentElement.lang = 'zh-Hant';
+  render();
+  saveUI();
+  Speech.init();
+  Sync.init();
+})();
+</script>
+</body></html>
