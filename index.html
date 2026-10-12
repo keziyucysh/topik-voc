@@ -133,6 +133,7 @@ textarea{width:100%;min-height:96px;border-radius:12px;border:1.5px solid var(--
 .chip-more{background:transparent;border-style:dashed;color:var(--ink-2);font-size:13px}
 .reveal{border:1.5px dashed var(--blue-mid);background:var(--surface-3);color:var(--ink-2);border-radius:16px;min-height:112px;font-size:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
 .reveal small{font-size:13px}
+.real-voice{margin-top:6px;font-size:13px;color:var(--blue-text);text-underline-offset:3px;padding:4px 8px}
 .dict{margin-top:auto;font-size:13.5px;color:var(--ink-2)}
 .dict summary{cursor:pointer;padding:6px 0;list-style:none;display:flex;align-items:center;gap:6px}
 .dict summary::-webkit-details-marker{display:none}
@@ -295,7 +296,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
   <main class="stage">
     <article id="card" class="card" aria-live="polite">
       <div id="cardMeta" class="card-meta"></div>
-      <div class="word-wrap"><h1 id="ko" class="ko" lang="ko"></h1></div>
+      <div class="word-wrap"><h1 id="ko" class="ko" lang="ko"></h1><a id="realVoice" class="real-voice" target="_blank" rel="noopener">真人發音（Naver 辭典）↗</a></div>
       <div id="answer" class="answer"></div>
       <button id="reveal" class="reveal" type="button" hidden></button>
       <details id="dict" class="dict">
@@ -506,7 +507,13 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
       <div class="field">
         <span class="label">韓文發音</span>
         <div class="card-box" id="voiceStatus">正在偵測韓語語音…</div>
-        <div class="inline" id="voicePickRow" hidden><select id="selVoice" aria-label="選擇韓語語音"></select><button id="btnTestVoice" class="btn-soft" type="button">試聽</button></div>
+        <div class="seg" id="segAuto">
+          <button type="button" data-v="1">換字時自動播放</button>
+          <button type="button" data-v="0">只在按播放時發音</button>
+        </div>
+        <div class="inline" id="voicePickRow" hidden><select id="selVoice" aria-label="選擇韓語語音"></select></div>
+        <button id="btnTestVoice" class="btn-soft" type="button">試聽：아빠・오빠・빠르다・빵</button>
+        <p class="hint">如果某些音聽起來不對，可以在上面換一個韓語語音再試聽；也可以點卡片上的「真人發音」聽辭典的錄音。</p>
         <button id="btnVoiceHelp" class="btn-line" type="button">沒有聲音或念錯語言？</button>
       </div>
       <div class="field">
@@ -699,7 +706,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
   function defaults() {
     return { v: 2, updatedAt: 0, mode: 'cards', src: 'all', order: 'pdf', scope: 'all', cat: 'all', deck: null, pos: 0, mainNo: 1,
              marks: '', hideZh: false, voiceURI: '', done: false, dataSig: '',
-             srs: {}, srsDay: {}, srsQ: {}, srsNew: 20, quizType: 'ko2zh', quizLen: 10 };
+             srs: {}, srsDay: {}, srsQ: {}, srsNew: 20, quizType: 'ko2zh', quizLen: 10, autoPlay: true };
   }
   var state = defaults();
   var peek = false;   // temporary reveal of hidden Chinese for the current card
@@ -860,7 +867,8 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     score: function (v) {
       var n = (v.name || '') + ' ' + (v.voiceURI || '');
       var s = 0;
-      if (/natural|premium|enhanced|neural|online/i.test(n)) s += 3;
+      if (/natural|premium|enhanced|neural|online|高品質|高音質|增強|強化|향상|고품질|프리미엄/i.test(n)) s += 3;
+      if (/compact|精簡|간소/i.test(n)) s -= 2;
       if (/google/i.test(n)) s += 2;
       if (/yuna|sunhi|injoon|heami|sora|minjun/i.test(n)) s += 2;
       if (v.localService) s += 1;
@@ -874,6 +882,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
       this.voice = chosen;
     },
     ready: function () { return this.status === 'ready' && !!this.voice; },
+    word: function (w, slow, quiet) { if (w) this.speak(w.say || w.ko, slow, quiet); },
     speak: function (text, slow, quiet) {
       var self0 = this;
       text = String(text).replace(/[／\/]/g, ', ');
@@ -887,8 +896,10 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
       }
       var key = text + (slow ? '|s' : '|n');
       var now = Date.now();
-      if (key === this.lastKey && now - this.lastAt < 300) return;   // ignore accidental double taps
-      this.lastKey = key; this.lastAt = now;
+      if (!quiet) {   // ignore accidental double taps on the play buttons (automatic playback never blocks a tap)
+        if (key === this.lastKey && now - this.lastAt < 300) return;
+        this.lastKey = key; this.lastAt = now;
+      }
       var self = this, synth = window.speechSynthesis, token = ++this.token, voice = this.voice;
       var go = function () {
         if (token !== self.token) return;
@@ -1259,6 +1270,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     $('reveal').hidden = !hidden;
     $('reveal').innerHTML = revealHTML || '';
     $('dictLinks').innerHTML = dictLinks(w.ko);
+    $('realVoice').href = 'https://korean.dict.naver.com/kozhdict/#/search?query=' + encodeURIComponent(w.ko.replace(/[?.!]$/, ''));
     if (shownId !== w.id) { $('card').scrollTop = 0; shownId = w.id; }
   }
 
@@ -1427,7 +1439,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     Q.i++;
     Q.rev = false;
     Speech.stop();
-    save(); render();
+    save(); render(); autoSpeak();
   }
 
   /* ================= 小測驗 ================= */
@@ -1479,7 +1491,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     }), i: 0, score: 0, wrong: [] };
     save();
     render();
-    if (quiz.type === 'au2zh') Speech.speak(BY_ID.get(quiz.items[0].id).ko, false, true);
+    quizPromptSpeak();
   }
   function renderQuiz() {
     if (!quiz) {
@@ -1553,7 +1565,8 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
       save();
     }
     render();
-    Speech.speak(BY_ID.get(it.id).ko, false, true);
+    // after answering: say the word if it has not just been played as the question
+    if (quiz.type === 'zh2ko' || (quiz.type === 'ko2zh' && !state.autoPlay)) Speech.word(BY_ID.get(it.id), false, true);
   }
   function quizNext() {
     if (!quiz) return;
@@ -1562,7 +1575,21 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     Speech.stop();
     quiz.i++;
     render();
-    if (quiz.i < quiz.items.length && quiz.type === 'au2zh') Speech.speak(BY_ID.get(quiz.items[quiz.i].id).ko, false, true);
+    quizPromptSpeak();
+  }
+
+  /* ================= auto-play ================= */
+  // Plays the word that just came on screen. Only called right after the learner moves to another word.
+  function autoSpeak() {
+    if (!state.autoPlay || anySheetOpen()) return;
+    var w = null;
+    if (state.mode === 'cards' && !state.done && state.deck.length) w = BY_ID.get(currentId());
+    else if (state.mode === 'srs' && state.srsQ && state.srsQ.q && state.srsQ.i < state.srsQ.q.length) w = BY_ID.get(state.srsQ.q[state.srsQ.i]);
+    if (w) Speech.word(w, false, true);
+  }
+  function quizPromptSpeak() {
+    if (!quiz || quiz.i >= quiz.items.length) return;
+    if (quiz.type === 'au2zh' || (quiz.type === 'ko2zh' && state.autoPlay)) Speech.word(BY_ID.get(quiz.items[quiz.i].id), false, true);
   }
 
   /* ================= card actions ================= */
@@ -1578,7 +1605,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
       if (p >= state.deck.length) state.done = true;
       else state.pos = p;
     }
-    save(); render();
+    save(); render(); autoSpeak();
   }
   function toggleMark(m) {
     if (state.done || !state.deck.length) return;
@@ -1598,13 +1625,13 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     else if (orderOnly) target = keep;
     rebuildDeck(target, true);
     Speech.stop(); peek = false; quiz = null;
-    save(); render(); settingsUI();
+    save(); render(); settingsUI(); autoSpeak();
   }
   function restart() {
     Speech.stop(); peek = false;
     if (state.order === 'random' || state.scope !== 'all') rebuildDeck(null, false);
     state.pos = 0; state.done = false;
-    save(); render();
+    save(); render(); autoSpeak();
   }
   function openInCards(id) {
     var idx = state.deck.indexOf(id);
@@ -1614,7 +1641,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     } else { state.pos = idx; state.done = false; }
     state.mode = 'cards';
     Speech.stop(); peek = false;
-    save(); render(); settingsUI();
+    save(); render(); settingsUI(); autoSpeak();
   }
 
   /* ================= sheets ================= */
@@ -1633,7 +1660,14 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
   function anySheetOpen() { return ['settingsScrim', 'voiceScrim', 'searchScrim', 'peekScrim', 'saveScrim'].some(function (id) { return !$(id).hidden; }); }
   function closeTopSheet() { ['peekScrim', 'voiceScrim', 'saveScrim', 'searchScrim', 'settingsScrim'].some(function (id) { if (!$(id).hidden) { closeSheet(id); return true; } return false; }); }
 
-  function openSettings() { settingsUI(); voiceUI(); syncText(); openSheet('settingsScrim', 'settingsTitle'); }
+  var wordAtSettings = null;
+  function visibleWordKey() {
+    if (state.mode === 'cards') return state.done || !state.deck.length ? null : 'c' + currentId();
+    if (state.mode === 'srs' && state.srsQ && state.srsQ.q) return 's' + state.srsQ.i + ':' + state.srsQ.q[state.srsQ.i];
+    return null;
+  }
+  function openSettings() { settingsUI(); voiceUI(); syncText(); wordAtSettings = visibleWordKey(); openSheet('settingsScrim', 'settingsTitle'); }
+  function afterSettings() { if (visibleWordKey() !== wordAtSettings) autoSpeak(); }
   function currentWord() {
     if (state.mode === 'srs' && state.srsQ && state.srsQ.q && state.srsQ.i < state.srsQ.q.length) return BY_ID.get(state.srsQ.q[state.srsQ.i]);
     if (state.mode === 'quiz' && quiz && quiz.items[quiz.i]) return BY_ID.get(quiz.items[quiz.i].id);
@@ -1711,6 +1745,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     $$('#segOrder button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.order === state.order)); });
     $$('#segSrsNew button').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.v === state.srsNew)); });
     $('btnReshuffle').hidden = state.order !== 'random';
+    $$('#segAuto button').forEach(function (b) { b.setAttribute('aria-pressed', String((b.dataset.v === '1') === state.autoPlay)); });
     var srcCount = function (s) { return WORDS.filter(function (w) { return inSrc(w, s); }).length; };
     var opt = function (v, label) { return '<option value="' + esc(v) + '"' + (v === state.src ? ' selected' : '') + '>' + esc(label) + '（' + srcCount(v) + '）</option>'; };
     $('selSrc').innerHTML = opt('all', '全部（兩本合併）') + opt('t', 'TOPIK I 1671') + opt('b', BOOK_B.short + '（第二本書）') +
@@ -1760,7 +1795,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     Speech.stop(); peek = false;
     state.mode = m;
     if (m === 'srs') srsEnsure();
-    save(); render();
+    save(); render(); autoSpeak();
   }
 
   /* ================= wire up ================= */
@@ -1773,7 +1808,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
       if (p.disabled) return;
       var slow = p.getAttribute('data-slow') === '1';
       var w = p.getAttribute('data-peek') ? BY_ID.get(peekId) : currentWord();
-      if (w) Speech.speak(w.ko, slow);
+      if (w) Speech.word(w, slow);
       return;
     }
     var pk = e.target.closest && e.target.closest('[data-peek]');
@@ -1806,7 +1841,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     var d = srsDay(); d.extra += 10;
     var add = srsNewIds(srsAllowance());
     state.srsQ.q = state.srsQ.q.concat(add.filter(function (id) { return state.srsQ.q.slice(state.srsQ.i).indexOf(id) < 0; }));
-    save(); render();
+    save(); render(); autoSpeak();
   });
   $('btnSrsCards').addEventListener('click', function () { setMode('cards'); });
 
@@ -1841,7 +1876,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
       toast('已從備份碼還原（' + (o.r.length + o.k.length) + ' 個標記、' + o.s.length + ' 個複習排程）');
     });
   });
-  $('btnCloseSettings').addEventListener('click', function () { closeSheet('settingsScrim'); });
+  $('btnCloseSettings').addEventListener('click', function () { closeSheet('settingsScrim'); afterSettings(); });
   $('btnCloseVoice').addEventListener('click', function () { closeSheet('voiceScrim'); });
   $('btnClosePeek').addEventListener('click', function () { closeSheet('peekScrim'); });
   $('btnPeekOpen').addEventListener('click', function () {
@@ -1860,7 +1895,7 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     else toast('還是找不到韓語語音');
   });
   ['settingsScrim', 'voiceScrim', 'searchScrim', 'peekScrim', 'saveScrim'].forEach(function (id) {
-    $(id).addEventListener('click', function (e) { if (e.target === $(id)) closeSheet(id); });
+    $(id).addEventListener('click', function (e) { if (e.target === $(id)) { closeSheet(id); if (id === 'settingsScrim') afterSettings(); } });
   });
   $('selSrc').addEventListener('change', function () { setRange({ src: this.value, cat: 'all' }); });
   $('selCat').addEventListener('change', function () { setRange({ cat: this.value }); });
@@ -1903,7 +1938,10 @@ select,input[type="number"],input[type="search"]{min-height:46px;border-radius:1
     });
   });
   $('selVoice').addEventListener('change', function () { state.voiceURI = this.value; Speech.pick(); save(); voiceUI(); });
-  $('btnTestVoice').addEventListener('click', function () { Speech.speak('안녕하세요', false); });
+  $('btnTestVoice').addEventListener('click', function () { Speech.speak('아빠. 오빠. 빠르다. 빵.', false); });
+  $$('#segAuto button').forEach(function (b) {
+    b.addEventListener('click', function () { state.autoPlay = b.dataset.v === '1'; save(); settingsUI(); toast(state.autoPlay ? '換字時會自動播放發音' : '只在按播放時發音'); });
+  });
 
   document.addEventListener('keydown', function (e) {
     if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) { if (e.key === 'Escape') closeTopSheet(); return; }
